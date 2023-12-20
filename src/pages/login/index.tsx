@@ -6,11 +6,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/validations/auth";
 import { z } from "zod";
-import { createNewUser, getAllUsers } from "@/services/api/auth";
+import { getAllUsers } from "@/services/api/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loggedIn, UserState } from "@/redux/slices/userSlice";
+import { loggedIn } from "@/redux/slices/userSlice";
+import { RootState } from "@/redux/store";
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -21,8 +22,8 @@ function Login() {
   const [users, setUsers] = useState<User[]>([]);
   const [publishers, setPublishers] = useState<Publisher[]>([]);
 
-  const userID = useSelector((state: UserState) => state.user?.id);
-  console.log(userID);
+  const user = useSelector((state: RootState) => state.user.user);
+  console.log("userID ", user?.id);
 
   useEffect(() => {
     async function loadData() {
@@ -101,7 +102,7 @@ function Login() {
   };
   return (
     <div className="w-full">
-      <div className="flex flex-col items-center justify-center px-2 md:px-6 py-8 mx-auto lg:py-0 mt-3">
+      <div className="min-h-screen flex flex-col items-center justify-center px-2 md:px-6 py-8 mx-auto lg:py-0 mt-3">
         <div className="w-full bg-white rounded-lg md:mt-0 sm:max-w-md xl:p-0">
           <div className="space-y-4">
             <h1 className="text-xl font-bold md:text-2xl">

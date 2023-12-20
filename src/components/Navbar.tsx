@@ -3,16 +3,17 @@ import { logOut } from "@/redux/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./ui/Button";
+import Logo from "../assets/images/logo.svg";
 
 function Navbar() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(logOut());
 
-    navigate("/login")
+    navigate("/login");
   };
 
   return (
@@ -23,6 +24,10 @@ function Navbar() {
             <h1 className="text-3xl font-bold">
               <Link to="/news">Blogify</Link>
             </h1>
+          </div>
+
+          <div>
+            <img src={Logo} alt="" />
           </div>
 
           <div className="flex items-center gap-x-4">
