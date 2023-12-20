@@ -1,9 +1,19 @@
 import { cn } from "@/lib/utils";
-import { Link, useLocation } from "react-router-dom";
+import { logOut } from "@/redux/slices/userSlice";
+import { useDispatch } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./ui/Button";
 
 function Navbar() {
+  const navigate = useNavigate()
   const location = useLocation();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logOut());
+
+    navigate("/login")
+  };
 
   return (
     <nav className="w-full px-2 py-2 bg-blue-950 text-white">
@@ -35,7 +45,7 @@ function Navbar() {
               Publishers
             </Link>
 
-            <Button size="sm" variant="secondary">
+            <Button size="sm" variant="secondary" onClick={handleLogout}>
               Log out
             </Button>
           </div>

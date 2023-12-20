@@ -6,7 +6,6 @@ function News() {
     <>
       <Helmet>
         <title>Blogify |  News</title>
-        <link rel="canonical" href="http://mysite.com/example" />
       </Helmet>
       News
     </>

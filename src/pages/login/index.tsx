@@ -9,14 +9,20 @@ import { z } from "zod";
 import { createNewUser, getAllUsers } from "@/services/api/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loggedIn, UserState } from "@/redux/slices/userSlice";
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
 function Login() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const dispatch = useDispatch();
   const [users, setUsers] = useState<User[]>([]);
-  const [publishers, setPublisher] = useState<Publisher[]>([]);
+  const [publishers, setPublishers] = useState<Publisher[]>([]);
+
+  const userID = useSelector((state: UserState) => state.user?.id);
+  console.log(userID);
 
   useEffect(() => {
     async function loadData() {
@@ -58,6 +64,8 @@ function Login() {
         user.password === loginUser.password
       ) {
         isAuth = true;
+
+        dispatch(loggedIn({ id: user.id }));
       }
     });
 
