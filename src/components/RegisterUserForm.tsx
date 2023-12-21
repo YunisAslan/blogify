@@ -21,7 +21,7 @@ function RegisterUserForm() {
     async function loadData() {
       const allUsers = await getAllUsers();
 
-      setUsers(allUsers);
+      setUsers(allUsers.data);
     }
 
     loadData();

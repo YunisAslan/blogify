@@ -21,7 +21,7 @@ function RegisterPublisherForm() {
     async function loadData() {
       const allPublishers = await getAllPublishers();
 
-      setPublishers(allPublishers);
+      setPublishers(allPublishers.data);
     }
 
     loadData();
