@@ -20,8 +20,22 @@ type Publisher = {
   joinedDate: string;
 };
 
-// svg typings
+type News = {
+  id: string;
+  title: string;
+  newsBody: string;
+  linkURL: string;
+  thumbnailImg: string;
+  createdAt: string;
+};
+
+// assets typings
 declare module "*.svg" {
+  const content: string;
+  export default content;
+}
+
+declare module "*.jpg" {
   const content: string;
   export default content;
 }

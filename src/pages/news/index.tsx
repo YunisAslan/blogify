@@ -1,13 +1,17 @@
-import React from "react";
+import Hero from "@/components/Hero";
 import { Helmet } from "react-helmet";
+import NewsSection from "@/components/NewsSection"
 
 function News() {
   return (
     <>
       <Helmet>
-        <title>Blogify |  News</title>
+        <title>Blogify | News</title>
       </Helmet>
-      News
+
+      <Hero />
+
+      <NewsSection />
     </>
   );
 }

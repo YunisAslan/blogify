@@ -11,18 +11,18 @@ function RootLayout() {
   const location = useLocation();
   const user = useSelector((state: RootState) => state.user.user);
 
-      useEffect(() => {
-        if (!user?.id && location.pathname !== "/register") {
-          navigate("/login");
+  useEffect(() => {
+    if (!user?.id && location.pathname !== "/register") {
+      navigate("/login");
 
-          setTimeout(() => {
-            toast({
-              title: "You must be login",
-              variant: "destructive",
-            });
-          }, 0);
-        }
-      }, []);
+      setTimeout(() => {
+        toast({
+          title: "You must be login",
+          variant: "destructive",
+        });
+      }, 0);
+    }
+  }, []);
 
   return (
     <>
@@ -30,7 +30,7 @@ function RootLayout() {
         <Navbar />
       )}
 
-      <main className="max-w-6xl mx-auto min-h-screen py-2 px-4">
+      <main className="max-w-[1200px] mx-auto min-h-screen py-2 py-20">
         <Outlet />
       </main>
     </>
