@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loggedIn } from "@/redux/slices/userSlice";
 import { RootState } from "@/redux/store";
+import { Helmet } from "react-helmet";
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -101,84 +102,90 @@ function Login() {
     // });
   };
   return (
-    <div className="w-full">
-      <div className="min-h-screen flex flex-col items-center justify-center px-2 md:px-6 py-8 mx-auto lg:py-0 mt-3">
-        <div className="w-full bg-white rounded-lg md:mt-0 sm:max-w-md xl:p-0">
-          <div className="space-y-4">
-            <h1 className="text-xl font-bold md:text-2xl">
-              Login with your account
-            </h1>
+    <>
+      <Helmet>
+        <title>Blogify | Login</title>
+      </Helmet>
 
-            <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
-              <div>
-                <Label htmlFor="username" className="mb-2 block">
-                  Username
-                </Label>
+      <div className="w-full">
+        <div className="min-h-screen flex flex-col items-center justify-center px-2 md:px-6 py-8 mx-auto lg:py-0 mt-3">
+          <div className="w-full bg-white rounded-lg md:mt-0 sm:max-w-md xl:p-0">
+            <div className="space-y-4">
+              <h1 className="text-xl font-bold md:text-2xl">
+                Login with your account
+              </h1>
 
-                <Input
-                  type="text"
-                  id="username"
-                  placeholder="Acme"
-                  {...register("username")}
-                />
+              <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                  <Label htmlFor="username" className="mb-2 block">
+                    Username
+                  </Label>
 
-                {errors.username && (
-                  <p className="text-red-500">{errors.username?.message}</p>
-                )}
-              </div>
+                  <Input
+                    type="text"
+                    id="username"
+                    placeholder="Acme"
+                    {...register("username")}
+                  />
 
-              <div>
-                <Label htmlFor="email" className="mb-2 block">
-                  Email
-                </Label>
+                  {errors.username && (
+                    <p className="text-red-500">{errors.username?.message}</p>
+                  )}
+                </div>
 
-                <Input
-                  type="text"
-                  id="email"
-                  placeholder="example@gmail.com"
-                  {...register("email")}
-                />
+                <div>
+                  <Label htmlFor="email" className="mb-2 block">
+                    Email
+                  </Label>
 
-                {errors.email && (
-                  <p className="text-red-500">{errors.email?.message}</p>
-                )}
-              </div>
+                  <Input
+                    type="text"
+                    id="email"
+                    placeholder="example@gmail.com"
+                    {...register("email")}
+                  />
 
-              <div>
-                <Label htmlFor="password" className="mb-2 block">
-                  Password
-                </Label>
+                  {errors.email && (
+                    <p className="text-red-500">{errors.email?.message}</p>
+                  )}
+                </div>
 
-                <Input
-                  type="password"
-                  id="password"
-                  placeholder="••••••••"
-                  {...register("password")}
-                />
+                <div>
+                  <Label htmlFor="password" className="mb-2 block">
+                    Password
+                  </Label>
 
-                {errors.password && (
-                  <p className="text-red-500">{errors.password?.message}</p>
-                )}
-              </div>
+                  <Input
+                    type="password"
+                    id="password"
+                    placeholder="••••••••"
+                    {...register("password")}
+                  />
 
-              <Button type="submit" className="w-full">
-                Sign in
-              </Button>
+                  {errors.password && (
+                    <p className="text-red-500">{errors.password?.message}</p>
+                  )}
+                </div>
 
-              <p className="text-sm font-light text-muted-foreground">
-                Don't have an account ?{" "}
-                <Link
-                  to="/register"
-                  className="font-medium text-gray-600 hover:underline"
-                >
-                  Sign up
-                </Link>
-              </p>
-            </form>
+                <Button type="submit" className="w-full">
+                  Sign in
+                </Button>
+
+                <p className="text-sm font-light text-muted-foreground">
+                  Don't have an account ?{" "}
+                  <Link
+                    to="/register"
+                    className="font-medium text-gray-600 hover:underline"
+                  >
+                    Sign up
+                  </Link>
+                </p>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -1,28 +1,24 @@
 import Navbar from "@/components/Navbar";
-import { useToast } from "@/hooks/use-toast";
-import { RootState } from "@/redux/store";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 function RootLayout() {
-  const navigate = useNavigate();
-  const { toast } = useToast();
+  // const navigate = useNavigate();
+  // const { toast } = useToast();
   const location = useLocation();
-  const user = useSelector((state: RootState) => state.user.user);
+  // const user = useSelector((state: RootState) => state.user.user);
 
-  useEffect(() => {
-    if (!user?.id && location.pathname !== "/register") {
-      navigate("/login");
+  // useEffect(() => {
+  //   if (!user?.id && location.pathname !== "/register") {
+  //     navigate("/login");
 
-      setTimeout(() => {
-        toast({
-          title: "You must be login",
-          variant: "destructive",
-        });
-      }, 0);
-    }
-  }, []);
+  //     setTimeout(() => {
+  //       toast({
+  //         title: "You must be login",
+  //         variant: "destructive",
+  //       });
+  //     }, 0);
+  //   }
+  // }, []);
 
   return (
     <>

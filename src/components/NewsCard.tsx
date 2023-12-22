@@ -5,21 +5,17 @@ interface NewsCardProps {
 }
 
 function NewsCard({ item }: NewsCardProps) {
-  
-  
   return (
     <div className="px-4">
+
       <div>
         <img src={item.thumbnailImg} alt="" className="w-full h-full" />
       </div>
 
-      
-
       <div className="font-oswald">
-
         <h2 className="text-3xl mt-2">{item.title}</h2>
         <p className="uppercase text-base">
-          {moment(item.createdAt).format("LL")}
+          {moment(new Date(item.createdAt)).format("LL")}
         </p>
 
         <p className="pt-2 font-roboto">

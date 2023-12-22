@@ -19,8 +19,8 @@ function NewsSection() {
   }, []);
 
   return (
-    <div>
-      <h1 className="py-2 mb-14 text-[5rem] font-oswald uppercase text-center leading-[0.9] tracking-wider">
+    <div className="border-b-2 border-black pb-20">
+      <h1 className="py-2 mb-14 text-[4rem] font-oswald uppercase text-center leading-[0.9] tracking-wider">
         News
       </h1>
 

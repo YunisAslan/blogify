@@ -1,4 +1,3 @@
-import React from "react";
 import HeroImg from "@/assets/images/hero.jpg";
 import QuoteSvg from "@/assets/images/quote.svg";
 
