@@ -77,3 +77,36 @@
     @apply bg-background text-foreground font-roboto;
   }
 }
+
+@layer components {
+  /* swiper navigation styles */
+  .photography .swiper {
+    position: relative;
+  }
+
+  .photography .swiper-button-next,
+  .photography .swiper-button-prev {
+    position: absolute;
+    right: 1rem;
+    top: 3rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.71);
+    width: 3.75rem;
+    height: 3.75rem;
+  }
+  .photography .swiper-button-next::before,
+  .photography .swiper-button-next::after,
+  .photography .swiper-button-prev::before,
+  .photography .swiper-button-prev::after {
+    content: "" !important;
+  }
+  .photography .swiper-button-next {
+    stroke: white !important;
+    background-image: url("/src/assets/icons/сhevron-right.svg");
+  }
+  .photography .swiper-button-prev {
+    stroke: white !important;
+    background-image: url("/src/assets/icons/chevron-left.svg");
+  }
+}

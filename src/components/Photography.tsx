@@ -1,13 +1,12 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import ElephantImg from "@/assets/images/elephant.jpeg"
+import { Swiper, SwiperSlide } from "swiper/react";
+import ElephantImg from "@/assets/images/elephant.jpeg";
+import ZebraImg from "@/assets/images/zebra.jpg";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+import "swiper/css";
+import "swiper/css/navigation";
 
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-
+import { Navigation } from "swiper/modules";
 
 function Photography() {
   return (
@@ -17,26 +16,41 @@ function Photography() {
       </h1>
 
       {/* swiper slider */}
-      <div>
+      <div className="w-full border border-red-500">
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
-        //   autoplay={{
-        //     delay: 2500,
-        //     disableOnInteraction: false,
-        //   }}
-          pagination={{
-            clickable: true,
+          navigation={{
+            prevEl: ".swiper-button-prev",
+            nextEl: ".swiper-button-next",
           }}
-          navigation={true}
-          modules={[Pagination, Navigation]}
-          className="mySwiper"
+          modules={[Navigation]}
+          loop={true}
+          className="photography"
         >
-          <SwiperSlide>
-            <img src={ElephantImg} alt="" />
+          <SwiperSlide className="h-[700px]">
+            <img
+              src={ElephantImg}
+              alt=""
+              className="w-full h-full object-cover"
+            />
           </SwiperSlide>
-          <SwiperSlide>Slide 2</SwiperSlide>
-          <SwiperSlide>Slide 3</SwiperSlide>
+          <SwiperSlide className="h-[700px]">
+            <img src={ZebraImg} alt="" className="w-full h-full object-cover" />
+          </SwiperSlide>
+          <SwiperSlide className="h-[700px]">
+            <img
+              src={ElephantImg}
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          </SwiperSlide>
+
+          <div className="flex items-center bg-green-600 p-3">
+            <div className="swiper-button-next"></div>
+            <div className="border-r border-r-red-400"></div>
+            <div className="swiper-button-prev"></div>
+          </div>
         </Swiper>
       </div>
     </div>
