@@ -23,7 +23,7 @@ function Photography() {
 
   return (
     <div className="border-b-2 border-black pb-20">
-      <h1 className="py-2 mb-14 text-[4rem] font-oswald uppercase text-center leading-[0.9] tracking-wider">
+      <h1 className="py-2 mb-14 text-4xl md:text-[4rem] font-oswald uppercase text-center leading-[0.9] tracking-wider">
         Photography
       </h1>
 
@@ -54,9 +54,9 @@ function Photography() {
                     className="w-full h-full object-cover"
                   />
 
-                  <div className="bg-[#000000b5] text-white w-[500px] px-8 pt-8 pb-4 absolute z-10 left-0 bottom-6">
-                    <h3 className="text-4xl font-oswald">{item.title}</h3>
-                    <p className="pt-3 text-lg line-clamp-2">{item.newsBody}</p>
+                  <div className="bg-[#000000b5] text-white w-full md:w-[500px] px-8 pt-8 pb-4 absolute z-10 left-0 bottom-6">
+                    <h3 className="text-2xl md:text-4xl font-oswald">{item.title}</h3>
+                    <p className="pt-3 text-sm md:text-lg line-clamp-2">{item.newsBody}</p>
 
                     <div className="flex justify-end pt-4">
                       <Link

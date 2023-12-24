@@ -70,6 +70,9 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      transitionTimingFunction: {
+        easeInOutQuart: "cubic-bezier(0.76, 0, 0.24, 1)",
+      },
     },
     fontFamily: {
       oswald: ["Oswald", "sans-serif"],

@@ -4,16 +4,20 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../assets/images/logo.svg";
 import { useToast } from "@/hooks/use-toast";
 import {
+  AlignJustify as BarsIcon,
   Facebook,
   Linkedin,
   LogOutIcon,
   Search,
   Twitter,
+  X,
   Youtube,
 } from "lucide-react";
 import { RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { getPublisherByID, getUserByID } from "@/services/api/auth";
+import { Button } from "./ui/Button";
+import MobileNavbar from "./MobileNavbar";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -22,6 +26,8 @@ function Navbar() {
   const { toast } = useToast();
 
   const [currentUser, setCurrentUser] = useState<User | Publisher | null>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const account = useSelector((state: RootState) => state.user.user);
 
   useEffect(() => {
@@ -50,14 +56,11 @@ function Navbar() {
     });
   };
 
-  console.log("CurrentUser", currentUser);
-  
-
   return (
     <nav className="w-full px-2 sticky top-0 z-10">
-      <div className="container">
-        <div className="bg-white max-w-[1100px] h-[108px] mx-auto flex items-end justify-between py-2 border-b-2 border-black">
-          <div className="font-oswald">
+      <div className="px-2 lg:container">
+        <div className="relative bg-white max-w-[1100px] h-20 lg:h-[108px] mx-auto flex items-center lg:items-end justify-between py-2 border-b-2 border-black">
+          <div className="hidden lg:inline-block font-oswald">
             <Link to="/" className="uppercase text-lg px-2 py-1">
               Home
             </Link>
@@ -67,7 +70,7 @@ function Navbar() {
             </Link>
 
             <Link to="/publishers" className="uppercase text-lg px-2 py-1">
-            Publishers
+              Publishers
             </Link>
 
             {!account?.id && (
@@ -83,23 +86,16 @@ function Navbar() {
             )}
           </div>
 
-          <Link to="/" className=" absolute left-[calc(50%-45px)]">
-            <div className="w-[90px]">
+          <Link
+            to="/"
+            className="absolute left-[calc(50%-45px)] hidden lg:flex"
+          >
+            <div className="w-11 lg:w-[90px]">
               <img src={Logo} alt="" className="w-full h-full" />
             </div>
           </Link>
 
-          <div className="flex justify-center items-center gap-x-4">
-            {/* <Link
-              to="/news"
-              className={cn(
-                "px-2 py-1 rounded duration-150 transition-colors hover:bg-gray-500",
-                location.pathname === "/news" && "bg-gray-500"
-              )}
-            >
-              News
-            </Link> */}
-
+          <div className="hidden lg:flex justify-center items-center gap-x-4">
             <Link to="/face">
               <Facebook className="w-5 h-5" />
             </Link>
@@ -124,8 +120,39 @@ function Navbar() {
               <LogOutIcon className="w-5 h-5" />
             </button>
           </div>
+
+          {/* mobile design */}
+          <div className="w-full px-2 flex items-center justify-between lg:hidden">
+            <Link to="/" className="">
+              <div className="w-11 lg:w-[90px]">
+                <img src={Logo} alt="" className="w-full h-full" />
+              </div>
+            </Link>
+
+            {isOpen ? (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="flex hover:bg-transparent"
+                onClick={() => setIsOpen(false)}
+              >
+                <X />
+              </Button>
+            ) : (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="flex hover:bg-transparent"
+                onClick={() => setIsOpen(true)}
+              >
+                <BarsIcon />
+              </Button>
+            )}
+          </div>
         </div>
       </div>
+
+      <MobileNavbar isOpen={isOpen} setIsOpen={setIsOpen} account={account} handleLogout={handleLogout}/>
     </nav>
   );
 }

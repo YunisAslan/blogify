@@ -16,7 +16,7 @@ function PublishersSection() {
 
   return (
     <div className="border-b-2 border-black pb-20">
-      <h1 className="py-2 mb-14 text-[4rem] font-oswald uppercase text-center leading-[0.9] tracking-wider">
+      <h1 className="py-2 mb-14 text-4xl md:text-[4rem] font-oswald uppercase text-center leading-[0.9] tracking-wider">
         Publishers
       </h1>
 

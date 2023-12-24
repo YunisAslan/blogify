@@ -26,7 +26,7 @@ function RootLayout() {
         <Navbar />
       )}
 
-      <main className="max-w-[1100px] mx-auto min-h-screen py-2">
+      <main className="max-w-[1100px] mx-auto min-h-screen py-2 px-4 lg:px-0">
         <Outlet />
       </main>
     </>
