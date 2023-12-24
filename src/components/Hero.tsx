@@ -21,8 +21,9 @@ function Hero() {
         </div>
 
         <blockquote className="text-4xl font-medium">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          ac metus id felis finibus vehicula ut id purus.
+          Hər insan iki dəfə ölür. Həyatı sona çatanda və adı sonuncu dəfə
+          hallananda. Adını bilən sonuncu insan da öləndə, sən heç doğulmamış
+          olacaqsan.
         </blockquote>
       </div>
     </div>

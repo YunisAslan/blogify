@@ -7,7 +7,7 @@ function Register() {
   return (
     <>
       <Helmet>
-        <title>Blogify | Login</title>
+        <title>Blogify | Sign in</title>
       </Helmet>
 
       <div className="w-full">

@@ -8,8 +8,8 @@ function NewsCard({ item }: NewsCardProps) {
   return (
     <div className="px-4">
 
-      <div>
-        <img src={item.thumbnailImg} alt="" className="w-full h-full" />
+      <div className="w-full h-40">
+        <img src={item.thumbnailImg} alt="" className="w-full h-full object-cover" />
       </div>
 
       <div className="font-oswald">
@@ -18,10 +18,8 @@ function NewsCard({ item }: NewsCardProps) {
           {moment(new Date(item.createdAt)).format("LL")}
         </p>
 
-        <p className="pt-2 font-roboto">
-          Nam imperdiet nisl eros, nec tristique nisi gravida id. Nulla
-          tincidunt nec arcu ut semper. Maecenas sed lacus justo. Donec ut sem
-          et ligula ullamcorper venenatis ac tincidunt mi.
+        <p className="pt-2 font-roboto line-clamp-5">
+          {item.newsBody}
         </p>
       </div>
     </div>

@@ -266,7 +266,7 @@ function RegisterPublisherForm() {
                   to="/login"
                   className="font-medium text-gray-600 hover:underline"
                 >
-                  Log in
+                  Sign in
                 </Link>
               </p>
             </form>

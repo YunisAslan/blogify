@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/validations/auth";
 import { z } from "zod";
-import { getAllUsers } from "@/services/api/auth";
+import { getAllPublishers, getAllUsers } from "@/services/api/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,12 +24,13 @@ function Login() {
   const [publishers, setPublishers] = useState<Publisher[]>([]);
 
   const user = useSelector((state: RootState) => state.user.user);
-  console.log("userID ", user?.id);
 
   useEffect(() => {
     async function loadData() {
       const allUsers = await getAllUsers();
-
+      const allPublishers = await getAllPublishers();
+      
+      setPublishers(allPublishers.data)
       setUsers(allUsers.data);
     }
 
@@ -67,7 +68,7 @@ function Login() {
       ) {
         isAuth = true;
 
-        dispatch(loggedIn({ id: user.id }));
+        dispatch(loggedIn({ id: user._id, type: "user" }));
       }
     });
 
@@ -78,11 +79,13 @@ function Login() {
         publisher.password === loginUser.password
       ) {
         isAuth = true;
+
+        dispatch(loggedIn({ id: publisher._id, type: "publisher" }));
       }
     });
 
     if (isAuth) {
-      navigate("/news");
+      navigate("/");
 
       toast({
         title: "Successfully logged in!",
@@ -104,7 +107,7 @@ function Login() {
   return (
     <>
       <Helmet>
-        <title>Blogify | Login</title>
+        <title>Blogify | Sign in</title>
       </Helmet>
 
       <div className="w-full">

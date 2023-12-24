@@ -86,9 +86,6 @@
 
   .photography .swiper-button-next,
   .photography .swiper-button-prev {
-    position: absolute;
-    right: 1rem;
-    top: 3rem;
     background-position: center;
     background-repeat: no-repeat;
     background-color: rgba(0, 0, 0, 0.71);

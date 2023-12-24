@@ -1,7 +1,8 @@
 import Hero from "@/components/Hero";
 import { Helmet } from "react-helmet";
-import NewsSection from "@/components/NewsSection"
+import NewsSection from "@/components/NewsSection";
 import Photography from "@/components/Photography";
+import Publishers from "@/components/PublishersSection";
 
 function News() {
   return (
@@ -10,10 +11,11 @@ function News() {
         <title>Blogify | News</title>
       </Helmet>
 
-      <Hero />
+      {/* <Hero /> */}
 
       <NewsSection />
-      <Photography />
+      {/* <Photography /> */}
+      {/* <Publishers /> */}
     </>
   );
 }

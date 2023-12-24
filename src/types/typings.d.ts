@@ -1,15 +1,15 @@
 type User = {
-  id: string;
+  _id: string;
   username: string;
   fullName: string;
   email: string;
   password: string;
-  profileImg: string;
+  profileImage: string;
   isAdmin: boolean;
 };
 
 type Publisher = {
-  id: string;
+  _id: string;
   username: string;
   email: string;
   password: string;
@@ -20,13 +20,27 @@ type Publisher = {
   joinedDate: string;
 };
 
+type AccountType = "user" | "publisher"
+
 type News = {
-  id: string;
+  _id: string;
   title: string;
   newsBody: string;
   linkURL: string;
   thumbnailImg: string;
   createdAt: string;
+};
+
+type Tag = {
+  _id: string;
+  name: string;
+  newsId: string;
+};
+
+type Subscription = {
+  _id: string;
+  userId: string;
+  publisherId: string;
 };
 
 // assets typings

@@ -1,22 +1,18 @@
 import { getAllNews } from "@/services/api/news";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import NewsCard from "./NewsCard";
 
 function NewsSection() {
-  const [news, setNews] = useState<News[]>();
+  const [slicedNews, setSlicedNews] = useState<News[]>([]);
 
   useEffect(() => {
     async function loadData() {
-      try {
-        const newsData = await getAllNews();
-        setNews(newsData.data);
-      } catch (err) {
-        console.error(err);
-      }
+      const news = await getAllNews();
+      setSlicedNews(news.data.slice(0, 4));
     }
 
     loadData();
-  }, []);
+  }, [setSlicedNews]);
 
   return (
     <div className="border-b-2 border-black pb-20">
@@ -25,8 +21,8 @@ function NewsSection() {
       </h1>
 
       <div className="grid grid-cols-4 divide-x divide-x-accent">
-        {news?.map((item) => {
-          return <NewsCard item={item} key={item.id} />;
+        {slicedNews.map((item) => {
+          return <NewsCard item={item} key={item._id} />;
         })}
       </div>
     </div>
