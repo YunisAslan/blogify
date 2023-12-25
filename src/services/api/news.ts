@@ -7,3 +7,9 @@ export async function getAllNews() {
 
   return data as { message: string; data: News[] };
 }
+
+export async function createNewPost(payload: News) {
+  const { data } = await axios.post(`${BASE_URL}/news`, payload);
+
+  return data as { message: string; data: News[] };
+}

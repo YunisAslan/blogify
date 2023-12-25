@@ -1,5 +1,5 @@
 type User = {
-  _id: string;
+  _id?: string;
   username: string;
   fullName: string;
   email: string;
@@ -9,7 +9,7 @@ type User = {
 };
 
 type Publisher = {
-  _id: string;
+  _id?: string;
   username: string;
   email: string;
   password: string;
@@ -20,10 +20,10 @@ type Publisher = {
   joinedDate: string;
 };
 
-type AccountType = "user" | "publisher"
+type AccountType = "user" | "publisher";
 
 type News = {
-  _id: string;
+  _id?: string;
   title: string;
   newsBody: string;
   linkURL: string;
@@ -32,13 +32,13 @@ type News = {
 };
 
 type Tag = {
-  _id: string;
+  _id?: string;
   name: string;
   newsId: string;
 };
 
 type Subscription = {
-  _id: string;
+  _id?: string;
   userId: string;
   publisherId: string;
 };

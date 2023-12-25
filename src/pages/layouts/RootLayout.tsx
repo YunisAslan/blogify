@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 
 function RootLayout() {
@@ -7,18 +8,20 @@ function RootLayout() {
   const location = useLocation();
   // const user = useSelector((state: RootState) => state.user.user);
 
-  // useEffect(() => {
-  //   if (!user?.id && location.pathname !== "/register") {
-  //     navigate("/login");
+  useEffect(() => {
+    // if (!user?.id && location.pathname !== "/register") {
+    //   navigate("/login");
 
-  //     setTimeout(() => {
-  //       toast({
-  //         title: "You must be login",
-  //         variant: "destructive",
-  //       });
-  //     }, 0);
-  //   }
-  // }, []);
+    //   setTimeout(() => {
+    //     toast({
+    //       title: "You must be login",
+    //       variant: "destructive",
+    //     });
+    //   }, 0);
+    // }
+
+    document.documentElement.setAttribute("data-color-mode", "light");
+  }, []);
 
   return (
     <>

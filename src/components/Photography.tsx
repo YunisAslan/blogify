@@ -45,6 +45,7 @@ function Photography() {
             return (
               <SwiperSlide className="h-[700px]">
                 <div
+                  key={item._id}
                   className="w-full h-full relative"
                   data-swiper-parallax="-100"
                 >
@@ -55,8 +56,12 @@ function Photography() {
                   />
 
                   <div className="bg-[#000000b5] text-white w-full md:w-[500px] px-8 pt-8 pb-4 absolute z-10 left-0 bottom-6">
-                    <h3 className="text-2xl md:text-4xl font-oswald">{item.title}</h3>
-                    <p className="pt-3 text-sm md:text-lg line-clamp-2">{item.newsBody}</p>
+                    <h3 className="text-2xl md:text-4xl font-oswald">
+                      {item.title}
+                    </h3>
+                    <p className="pt-3 text-sm md:text-lg line-clamp-2">
+                      {item.newsBody}
+                    </p>
 
                     <div className="flex justify-end pt-4">
                       <Link
