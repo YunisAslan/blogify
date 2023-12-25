@@ -79,5 +79,5 @@ module.exports = {
       roboto: ["Roboto", "sans-serif"],
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 };
