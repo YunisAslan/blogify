@@ -3,7 +3,6 @@ import { getNewsByID } from "@/services/api/news";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useReadingTime } from "react-hook-reading-time";
 
 function NewsDetail() {
   const { id } = useParams();
@@ -50,7 +49,7 @@ function NewsDetail() {
 
           <p className="text-lg tracking-wide uppercase border-b border-b-black mt-2">
             {moment(new Date(currentNews?.createdAt as string)).format("LL")} -{" "}
-            <span>{useReadingTime(currentNews.newsBody).minutes} MIN</span>
+            <span>6 MIN</span>
           </p>
 
           <div> {currentNews.newsBody}</div>

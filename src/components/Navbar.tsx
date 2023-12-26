@@ -116,9 +116,11 @@ function Navbar() {
               <Search className="w-5 h-5" />
             </Link>
 
-            <button onClick={handleLogout}>
-              <LogOutIcon className="w-5 h-5" />
-            </button>
+            {account && (
+              <button onClick={handleLogout}>
+                <LogOutIcon className="w-5 h-5" />
+              </button>
+            )}
           </div>
 
           {/* mobile design */}

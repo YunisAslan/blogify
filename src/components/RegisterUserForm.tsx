@@ -51,6 +51,7 @@ function RegisterUserForm() {
       password: data.password,
       profileImage: data.profileImage,
       isAdmin: false,
+      isVerified: false,
     };
 
     const availableUsername = users.find(

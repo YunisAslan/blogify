@@ -55,6 +55,7 @@ function RegisterPublisherForm() {
       description: data.description,
       name: data.name,
       joinedDate: String(new Date()),
+      isVerified: false,
     };
 
     const availableUsername = publishers.find(

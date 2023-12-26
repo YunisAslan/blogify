@@ -6,6 +6,7 @@ type User = {
   password: string;
   profileImage: string;
   isAdmin: boolean;
+  isVerified: boolean;
 };
 
 type Publisher = {
@@ -18,6 +19,7 @@ type Publisher = {
   name: string;
   description: string;
   joinedDate: string;
+  isVerified: boolean;
 };
 
 type AccountType = "user" | "publisher";

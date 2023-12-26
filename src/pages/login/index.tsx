@@ -6,12 +6,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/validations/auth";
 import { z } from "zod";
-import { getAllPublishers, getAllUsers } from "@/services/api/auth";
+import {
+  loginWithPublisherAccount,
+  loginWithUserAccount,
+} from "@/services/api/auth";
 import { useToast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { loggedIn } from "@/redux/slices/userSlice";
-import { RootState } from "@/redux/store";
 import { Helmet } from "react-helmet";
 
 export type LoginFormData = z.infer<typeof loginSchema>;
@@ -20,22 +22,7 @@ function Login() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const dispatch = useDispatch();
-  const [users, setUsers] = useState<User[]>([]);
-  const [publishers, setPublishers] = useState<Publisher[]>([]);
-
-  const user = useSelector((state: RootState) => state.user.user);
-
-  useEffect(() => {
-    async function loadData() {
-      const allUsers = await getAllUsers();
-      const allPublishers = await getAllPublishers();
-      
-      setPublishers(allPublishers.data)
-      setUsers(allUsers.data);
-    }
-
-    loadData();
-  }, [setUsers]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const {
     register,
@@ -52,7 +39,7 @@ function Login() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    const loginUser = {
+    const loginAccount = {
       username: data.username,
       email: data.email,
       password: data.password,
@@ -60,29 +47,33 @@ function Login() {
 
     let isAuth = false;
 
-    users.forEach((user) => {
-      if (
-        user.username === loginUser.username &&
-        user.email === loginUser.email &&
-        user.password === loginUser.password
-      ) {
+    try {
+      setLoading(true);
+
+      const user = await loginWithUserAccount(loginAccount);
+      const publisher = await loginWithPublisherAccount(loginAccount);
+
+      if (user.success) {
         isAuth = true;
 
-        dispatch(loggedIn({ id: user._id, type: "user" }));
+        dispatch(loggedIn({ id: user.data._id, type: "user" }));
       }
-    });
 
-    publishers.forEach((publisher) => {
-      if (
-        publisher.username === loginUser.username &&
-        publisher.email === loginUser.email &&
-        publisher.password === loginUser.password
-      ) {
+      if (publisher.success) {
         isAuth = true;
 
-        dispatch(loggedIn({ id: publisher._id, type: "publisher" }));
+        dispatch(loggedIn({ id: publisher.data._id, type: "publisher" }));
       }
-    });
+    } catch (err) {
+      console.log(err);
+      toast({
+        title: "Something went wrong!",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
 
     if (isAuth) {
       navigate("/");
@@ -170,7 +161,7 @@ function Login() {
                   )}
                 </div>
 
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full" isLoading={loading}>
                   Sign in
                 </Button>
 
