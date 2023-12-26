@@ -59,7 +59,7 @@ function Navbar() {
   return (
     <nav className="w-full px-2 sticky top-0 z-10">
       <div className="px-2 lg:container">
-        <div className="relative bg-white max-w-[1100px] h-20 lg:h-[108px] mx-auto flex items-center lg:items-end justify-between py-2 border-b-2 border-black">
+        <div className="relative bg-white max-w-[1100px] 2xl:max-w-[1200px] h-20 lg:h-[108px] mx-auto flex items-center lg:items-end justify-between py-2 border-b-2 border-black">
           <div className="hidden lg:inline-block font-oswald">
             <Link to="/" className="uppercase text-lg px-2 py-1">
               Home
@@ -152,7 +152,12 @@ function Navbar() {
         </div>
       </div>
 
-      <MobileNavbar isOpen={isOpen} setIsOpen={setIsOpen} account={account} handleLogout={handleLogout}/>
+      <MobileNavbar
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        account={account}
+        handleLogout={handleLogout}
+      />
     </nav>
   );
 }

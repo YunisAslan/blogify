@@ -8,6 +8,12 @@ export async function getAllNews() {
   return data as { message: string; data: News[] };
 }
 
+export async function getNewsByID(id: string) {
+  const { data } = await axios.get(`${BASE_URL}/news/${id}`);
+
+  return data as { message: string; data: News };
+}
+
 export async function createNewPost(payload: News) {
   const { data } = await axios.post(`${BASE_URL}/news`, payload);
 

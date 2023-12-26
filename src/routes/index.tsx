@@ -3,6 +3,7 @@ import Home from "@/pages/home";
 import RootLayout from "@/pages/layouts/RootLayout";
 import Login from "@/pages/login";
 import News from "@/pages/news";
+import NewsDetail from "@/pages/news-detail";
 import Register from "@/pages/register";
 import Write from "@/pages/write";
 import { createBrowserRouter } from "react-router-dom";
@@ -29,6 +30,10 @@ export const routes = createBrowserRouter([
         element: <News />,
       },
       {
+        path: "news/:id",
+        element: <NewsDetail />,
+      },
+      {
         path: "write",
         element: <Write />,
       },
@@ -36,6 +41,6 @@ export const routes = createBrowserRouter([
   },
   {
     path: "*",
-    element: <NotFound />
-  }
+    element: <NotFound />,
+  },
 ]);

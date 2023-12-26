@@ -43,9 +43,8 @@ function Photography() {
         >
           {slicedNews.map((item) => {
             return (
-              <SwiperSlide className="h-[700px]">
+              <SwiperSlide className="h-[700px]" key={item._id}>
                 <div
-                  key={item._id}
                   className="w-full h-full relative"
                   data-swiper-parallax="-100"
                 >
