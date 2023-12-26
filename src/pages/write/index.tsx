@@ -23,6 +23,7 @@ function Write() {
   const [loading, setLoading] = useState<boolean>(false);
   const { toast } = useToast();
   const {
+    reset,
     register,
     getValues,
     setValue,
@@ -55,6 +56,12 @@ function Write() {
         toast({
           title: "Successfully created!",
         });
+
+        reset({
+          title: "",
+          thumbnailImg: "",
+          newsBody: "",
+        });
       }
     } catch (err) {
       console.error(err);
@@ -74,7 +81,7 @@ function Write() {
         Write
       </h1>
 
-      <div className="w-3/4 mx-auto">
+      <div className="w-full md:w-3/4 mx-auto">
         <section className="grid gap-6">
           <Card>
             <CardHeader>
@@ -97,7 +104,11 @@ function Write() {
                 </div>
                 <div className="space-y-1">
                   <Label htmlFor="thumbnail">Thumbnail</Label>
-                  <Input id="thumbnail" placeholder="https://thumbnail.png" {...register("thumbnailImg")} />
+                  <Input
+                    id="thumbnail"
+                    placeholder="https://thumbnail.png"
+                    {...register("thumbnailImg")}
+                  />
 
                   {errors.thumbnailImg && (
                     <span className="text-sm text-destructive">
@@ -106,25 +117,21 @@ function Write() {
                   )}
                 </div>
 
-                <div className="relative mb-10">
+                <div className="relative pb-3">
                   <MarkdownEditor
                     height="100px"
                     value={getValues("newsBody")}
                     onChange={(value) => setValue("newsBody", value)}
                   />
                   {errors.newsBody && (
-                    <span className="absolute text-sm text-destructive">
+                    <span className="absolute pt-1 text-sm text-destructive">
                       {errors.newsBody.message}
                     </span>
                   )}
                 </div>
 
-                <div className="mt-10">
-                  <Button
-                    type="submit"
-                    isLoading={loading}
-                    className="bg-red-400"
-                  >
+                <div>
+                  <Button type="submit" isLoading={loading} size="sm">
                     Save
                   </Button>
                 </div>
