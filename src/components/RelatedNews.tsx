@@ -13,7 +13,7 @@ function RelatedNews({ publisherId, currentNews }: RelatedNewsProps) {
   useEffect(() => {
     async function loadData() {
       const pAllNews = await getPublisherAllNews(publisherId);
-      setPublisherAllNews(pAllNews.data.slice(0, 3));
+      setPublisherAllNews(pAllNews.data.slice(0, 2));
     }
 
     loadData();

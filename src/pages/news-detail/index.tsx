@@ -11,12 +11,14 @@ import RelatedPublishers from "@/components/RelatedPublishers";
 import { Button } from "@/components/ui/Button";
 import { ThumbsUp } from "lucide-react";
 import NewsPostLike from "@/components/NewsPostLike";
+import { getAllTagsByNewsID } from "@/services/api/tag";
 
 function NewsDetail() {
   const { id } = useParams();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [currentNews, setCurrentNews] = useState<News | null>(null);
+  const [tags, setTags] = useState<Tag[]>([]);
   const [currentPublisher, setCurrentPublisher] = useState<Publisher | null>(
     null
   );
@@ -28,7 +30,9 @@ function NewsDetail() {
 
         if (id) {
           const news = await getNewsByID(id);
+          const newsTags = await getAllTagsByNewsID(id);
           setCurrentNews(news.data);
+          setTags(newsTags.data);
         }
 
         if (currentNews?.publisherId) {
@@ -60,7 +64,14 @@ function NewsDetail() {
         {currentNews?.title}
       </h1>
 
-      <p className="text-2xl block mb-6">{currentNews.description}</p>
+      <p className="text-2xl block mb-4">{currentNews.description}</p>
+
+      {/* news tags */}
+      <div className="flex items-center flex-wrap gap-3 mb-2">
+        {tags.map((tag, i) => {
+          return <span key={i} className="bg-slate-800 px-3 py-1.5 rounded-lg text-white">{tag.name}</span>;
+        })}
+      </div>
 
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-9">

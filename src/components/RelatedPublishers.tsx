@@ -1,6 +1,8 @@
+import { RootState } from "@/redux/store";
 import { getAllPublishers } from "@/services/api/auth";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 interface RelatedPublishersProps {
@@ -8,6 +10,7 @@ interface RelatedPublishersProps {
 }
 
 function RelatedPublishers({ publisherId }: RelatedPublishersProps) {
+  const user = useSelector((state: RootState) => state.user.user);
   const [slicedPublishers, setSlicedPublishers] = useState<Publisher[]>([]);
 
   useEffect(() => {
@@ -28,23 +31,28 @@ function RelatedPublishers({ publisherId }: RelatedPublishersProps) {
       <div className="flex flex-col">
         {slicedPublishers.map((item) => {
           return (
-            item._id !== publisherId && (
-              <Link
-                to={`/publishers/${item._id}`}
+            item._id !== publisherId &&
+            item._id !== user?.id && (
+              <div
+                key={item._id}
                 className="flex items-center gap-x-3 py-3 border-b border-black group"
               >
-                <div className="w-24 h-24 overflow-hidden">
-                  <img
-                    src={item.profileImg}
-                    alt=""
-                    className="w-full h-full object-cover transition-all ease-easeInOutQuart duration-300 group-hover:scale-110"
-                  />
-                </div>
+                <Link to={`/publishers/${item._id}`}>
+                  <div className="w-24 h-24 overflow-hidden">
+                    <img
+                      src={item.profileImg}
+                      alt=""
+                      className="w-full h-full object-cover transition-all ease-easeInOutQuart duration-300 group-hover:scale-110"
+                    />
+                  </div>
+                </Link>
 
                 <div>
-                  <h3 className="font-oswald text-lg my-2.5">
-                    {item.username}
-                  </h3>
+                  <Link to={`/publishers/${item._id}`}>
+                    <h3 className="font-oswald text-lg my-2.5">
+                      {item.username}
+                    </h3>
+                  </Link>
                   <div className="flex items-center gap-x-2">
                     <Link to="/face">
                       <Facebook className="w-5 h-5" />
@@ -59,7 +67,7 @@ function RelatedPublishers({ publisherId }: RelatedPublishersProps) {
                     </Link>
                   </div>
                 </div>
-              </Link>
+              </div>
             )
           );
         })}

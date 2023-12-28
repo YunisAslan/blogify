@@ -32,6 +32,7 @@ type News = {
   thumbnailImg: string;
   publisherId: string;
   description: string;
+  tags: string[] | Tag[];
   likes: string[];
   createdAt: string;
 };
@@ -39,7 +40,6 @@ type News = {
 type Tag = {
   _id?: string;
   name: string;
-  newsId: string;
 };
 
 type Subscription = {

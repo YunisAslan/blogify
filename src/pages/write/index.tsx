@@ -14,16 +14,43 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { createNewPost } from "@/services/api/news";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import CreatableSelect from "react-select/creatable";
+import { ActionMeta } from "react-select";
+import { createNewTag, getAllTags } from "@/services/api/tag";
 
 type FormData = z.infer<typeof newsPostSchema>;
+interface SelectOption {
+  value: string | undefined;
+  label: string;
+}
 
 function Write() {
-  const [loading, setLoading] = useState<boolean>(false);
+  const user = useSelector((state: RootState) => state.user.user);
+
   const { toast } = useToast();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [allTags, setAllTags] = useState<SelectOption[]>([]);
+  const [selectedTags, setSelectedTags] = useState<SelectOption[]>([]);
+
+  useEffect(() => {
+    async function loadData() {
+      const tags = await getAllTags();
+
+      const tagOptions = tags.data.flatMap((tag) => ({
+        value: tag._id,
+        label: tag.name,
+      }));
+
+      setAllTags(tagOptions);
+    }
+
+    loadData();
+  }, [setAllTags]);
+
   const {
     reset,
     register,
@@ -36,12 +63,44 @@ function Write() {
       title: "",
       thumbnailImg: "",
       description: "",
+      tags: [],
       newsBody: "",
     },
     resolver: zodResolver(newsPostSchema),
   });
 
-  const user = useSelector((state: RootState) => state.user.user);
+  const handleTagChange = async (
+    options: readonly SelectOption[],
+    actionMeta: ActionMeta<SelectOption>
+  ) => {
+    if (actionMeta.action === "select-option") {
+      setSelectedTags([
+        ...selectedTags,
+        {
+          value: actionMeta.option?.value as string,
+          label: actionMeta.option?.label as string,
+        },
+      ]);
+    } else if (actionMeta.action === "remove-value") {
+      const updatedTags = [...selectedTags].filter(
+        (item) => item.label !== actionMeta.removedValue.label
+      );
+      setSelectedTags([...updatedTags]);
+    } else if (actionMeta.action === "create-option") {
+      const newTag = { name: actionMeta.option.label };
+
+      const res = await createNewTag(newTag);
+      if (res.data._id) {
+        setSelectedTags([
+          ...selectedTags,
+          {
+            value: res.data._id,
+            label: actionMeta.option?.label as string,
+          },
+        ]);
+      }
+    }
+  };
 
   const onSubmit = async (data: FormData) => {
     const newPost: News = {
@@ -50,6 +109,7 @@ function Write() {
       linkURL: "acme",
       newsBody: data.newsBody,
       publisherId: user?.id as string,
+      tags: selectedTags.map((item) => item.value as string),
       likes: [],
       description: data.description,
       createdAt: String(new Date()),
@@ -68,9 +128,11 @@ function Write() {
         reset({
           title: "",
           thumbnailImg: "",
+          tags: [],
           description: "",
           newsBody: "",
         });
+        setSelectedTags([]);
       }
     } catch (err) {
       console.error(err);
@@ -149,6 +211,18 @@ function Write() {
                   )}
                 </div>
 
+                <div className="space-y-1">
+                  <Label htmlFor="description">Tags</Label>
+                  <CreatableSelect
+                    isMulti
+                    options={allTags}
+                    value={selectedTags}
+                    onChange={(options, actionMeta) =>
+                      handleTagChange(options, actionMeta)
+                    }
+                  />
+                </div>
+
                 <div className="relative pb-3">
                   <MarkdownEditor
                     height="100px"
@@ -171,10 +245,6 @@ function Write() {
             </CardContent>
           </Card>
         </section>
-      </div>
-
-      <div className="prose">
-        {/* <Markdown>{getValues("newsBody")}</Markdown> */}
       </div>
     </div>
   );
