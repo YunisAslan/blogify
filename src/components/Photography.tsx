@@ -64,7 +64,7 @@ function Photography() {
 
                     <div className="flex justify-end pt-4">
                       <Link
-                        to={`/post/${item._id}`}
+                        to={`/news/${item._id}`}
                         className="font-oswald hover:underline"
                       >
                         Read more
@@ -75,58 +75,6 @@ function Photography() {
               </SwiperSlide>
             );
           })}
-
-          {/* <SwiperSlide className="h-[700px]">
-            <div className="w-full h-full relative" data-swiper-parallax="-200">
-              <img
-                src={ZebraImg}
-                alt=""
-                className="w-full h-full object-cover"
-              />
-
-              <div className="bg-[#000000b5] text-white w-[500px] px-8 pt-8 pb-4 absolute z-10 left-0 bottom-6">
-                <h3 className="text-4xl font-oswald">
-                  B/W Monochrome Photography
-                </h3>
-                <p className="pt-3 text-lg">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Minus, praesentium?
-                </p>
-
-                <div className="flex justify-end pt-4">
-                  <Link to="/read-more" className="font-oswald hover:underline">
-                    Read more
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide className="h-[700px]">
-            <div className="w-full h-full relative" data-swiper-parallax="-300">
-              <img
-                src={HeroImg}
-                alt=""
-                className="w-full h-full object-cover"
-              />
-
-              <div className="bg-[#000000b5] text-white w-[500px] px-8 pt-8 pb-4 absolute z-10 left-0 bottom-6">
-                <h3 className="text-4xl font-oswald">
-                  B/W Monochrome Photography
-                </h3>
-                <p className="pt-3 text-lg">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Minus, praesentium?
-                </p>
-
-                <div className="flex justify-end pt-4">
-                  <Link to="/read-more" className="font-oswald hover:underline">
-                    Read more
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide> */}
 
           <div className="swiper-button-next"></div>
           <div className="swiper-button-prev"></div>

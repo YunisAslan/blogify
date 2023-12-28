@@ -16,6 +16,8 @@ import { createNewPost } from "@/services/api/news";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 type FormData = z.infer<typeof newsPostSchema>;
 
@@ -33,17 +35,23 @@ function Write() {
     defaultValues: {
       title: "",
       thumbnailImg: "",
+      description: "",
       newsBody: "",
     },
     resolver: zodResolver(newsPostSchema),
   });
 
+  const user = useSelector((state: RootState) => state.user.user);
+
   const onSubmit = async (data: FormData) => {
-    const newPost = {
+    const newPost: News = {
       title: data.title,
       thumbnailImg: data.thumbnailImg,
       linkURL: "acme",
       newsBody: data.newsBody,
+      publisherId: user?.id as string,
+      likes: [],
+      description: data.description,
       createdAt: String(new Date()),
     };
 
@@ -60,6 +68,7 @@ function Write() {
         reset({
           title: "",
           thumbnailImg: "",
+          description: "",
           newsBody: "",
         });
       }
@@ -94,7 +103,12 @@ function Write() {
               <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                 <div className="space-y-1">
                   <Label htmlFor="title">Title</Label>
-                  <Input id="title" placeholder="Acme" {...register("title")} />
+                  <Input
+                    type="text"
+                    id="title"
+                    placeholder="Acme"
+                    {...register("title")}
+                  />
 
                   {errors.title && (
                     <span className="text-sm text-destructive">
@@ -102,9 +116,11 @@ function Write() {
                     </span>
                   )}
                 </div>
+
                 <div className="space-y-1">
                   <Label htmlFor="thumbnail">Thumbnail</Label>
                   <Input
+                    type="url"
                     id="thumbnail"
                     placeholder="https://thumbnail.png"
                     {...register("thumbnailImg")}
@@ -113,6 +129,22 @@ function Write() {
                   {errors.thumbnailImg && (
                     <span className="text-sm text-destructive">
                       {errors.thumbnailImg.message}
+                    </span>
+                  )}
+                </div>
+
+                <div className="space-y-1">
+                  <Label htmlFor="description">Description</Label>
+                  <Input
+                    type="text"
+                    id="description"
+                    placeholder="Lorem ipsum dolor sit amet"
+                    {...register("description")}
+                  />
+
+                  {errors.description && (
+                    <span className="text-sm text-destructive">
+                      {errors.description.message}
                     </span>
                   )}
                 </div>

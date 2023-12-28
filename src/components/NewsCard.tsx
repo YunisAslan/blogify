@@ -1,6 +1,7 @@
 import { Image } from "lucide-react";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import NewsPostLike from "./NewsPostLike";
 
 interface NewsCardProps {
   item: News;
@@ -9,13 +10,13 @@ interface NewsCardProps {
 function NewsCard({ item }: NewsCardProps) {
   return (
     <div className="px-4">
-      <Link className="bg-green-200" to={`/news/${item._id}`}>
-        <div className="w-full h-40">
+      <Link className="bg-green-200 group" to={`/news/${item._id}`}>
+        <div className="w-full h-40 overflow-hidden">
           {item.thumbnailImg ? (
             <img
               src={item.thumbnailImg}
               alt=""
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transition-all ease-easeInOutQuart duration-300 group-hover:scale-125"
             />
           ) : (
             <div className="bg-primary/10 w-full h-full flex justify-center items-center">
@@ -30,9 +31,17 @@ function NewsCard({ item }: NewsCardProps) {
             {moment(new Date(item.createdAt)).format("LL")}
           </p>
 
-          <p className="pt-2 font-roboto line-clamp-5">{item.newsBody}</p>
+          <p className="pt-2 font-roboto line-clamp-4">
+            {item.description ? (
+              item.description
+            ) : (
+              <span className="italic">No description</span>
+            )}
+          </p>
         </div>
       </Link>
+
+      <NewsPostLike item={item} />
     </div>
   );
 }

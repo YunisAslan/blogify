@@ -30,6 +30,9 @@ type News = {
   newsBody: string;
   linkURL: string;
   thumbnailImg: string;
+  publisherId: string;
+  description: string;
+  likes: string[];
   createdAt: string;
 };
 
