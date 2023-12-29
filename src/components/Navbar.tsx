@@ -59,28 +59,43 @@ function Navbar() {
   return (
     <nav className="w-full px-2 sticky top-0 z-10">
       <div className="px-2 lg:container">
-        <div className="relative bg-white max-w-[1100px] 2xl:max-w-[1200px] h-20 lg:h-[108px] mx-auto flex items-center lg:items-end justify-between py-2 border-b-2 border-black">
+        <div className="relative bg-white max-w-[1100px] 2xl:max-w-[1200px] h-20 lg:h-[108px] mx-auto flex items-center lg:items-end justify-between py-1 border-b-2 border-black">
           <div className="hidden lg:inline-block font-oswald">
-            <Link to="/" className="uppercase text-lg px-2 py-1">
+            <Link
+              to="/"
+              className="inline-block uppercase text-lg px-2 hover:scale-110 transition-all duration-500"
+            >
               Home
             </Link>
 
-            <Link to="/news" className="uppercase text-lg px-2 py-1">
+            <Link
+              to="/news"
+              className="inline-block uppercase text-lg px-2 hover:scale-110 transition-all duration-500"
+            >
               News
             </Link>
 
-            <Link to="/publishers" className="uppercase text-lg px-2 py-1">
+            <Link
+              to="/publishers"
+              className="inline-block uppercase text-lg px-2 hover:scale-110 transition-all duration-500"
+            >
               Publishers
             </Link>
 
             {!account?.id && (
-              <Link to="/login" className="uppercase text-lg px-2 py-1">
+              <Link
+                to="/login"
+                className="uppercase text-lg px-2 hover:scale-110 transition-all duration-500"
+              >
                 Sign in
               </Link>
             )}
 
             {account?.type === "publisher" && (
-              <Link to="/write" className="uppercase text-lg px-2 py-1">
+              <Link
+                to="/write"
+                className="uppercase text-lg px-2 hover:scale-110 transition-all duration-500"
+              >
                 Write
               </Link>
             )}
@@ -96,28 +111,43 @@ function Navbar() {
           </Link>
 
           <div className="hidden lg:flex justify-center items-center gap-x-4">
-            <Link to="/face">
+            <Link
+              to="/facebook"
+              className="inline-block hover:scale-110 transition-all duration-500"
+            >
               <Facebook className="w-5 h-5" />
             </Link>
 
-            <Link to="/face">
+            <Link
+              to="/instagram"
+              className="inline-block hover:scale-110 transition-all duration-500"
+            >
               <Linkedin className="w-5 h-5" />
             </Link>
 
-            <Link to="/face">
+            <Link
+              to="/twitter"
+              className="inline-block hover:scale-110 transition-all duration-500"
+            >
               <Twitter className="w-5 h-5" />
             </Link>
 
-            <Link to="/face">
+            <Link
+              to="/youtube"
+              className="inline-block hover:scale-110 transition-all duration-500"
+            >
               <Youtube className="w-5 h-5" />
             </Link>
 
-            <Link to="/face">
+            <Link
+              to="/search"
+              className="inline-block hover:scale-110 transition-all duration-500"
+            >
               <Search className="w-5 h-5" />
             </Link>
 
             {account && (
-              <button onClick={handleLogout}>
+              <button onClick={handleLogout} className="inline-block hover:scale-110 transition-all duration-500">
                 <LogOutIcon className="w-5 h-5" />
               </button>
             )}

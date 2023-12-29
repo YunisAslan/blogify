@@ -54,15 +54,24 @@ function RelatedPublishers({ publisherId }: RelatedPublishersProps) {
                     </h3>
                   </Link>
                   <div className="flex items-center gap-x-2">
-                    <Link to="/face">
+                    <Link
+                      to="/face"
+                      className="inline-block hover:scale-110 transition-all duration-500"
+                    >
                       <Facebook className="w-5 h-5" />
                     </Link>
 
-                    <Link to="/face">
+                    <Link
+                      to="/face"
+                      className="inline-block hover:scale-110 transition-all duration-500"
+                    >
                       <Instagram className="w-5 h-5" />
                     </Link>
 
-                    <Link to="/face">
+                    <Link
+                      to="/face"
+                      className="inline-block hover:scale-110 transition-all duration-500"
+                    >
                       <Twitter className="w-5 h-5" />
                     </Link>
                   </div>
