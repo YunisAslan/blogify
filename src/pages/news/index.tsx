@@ -6,6 +6,7 @@ import Publishers from "@/components/PublishersSection";
 import NewsCard from "@/components/NewsCard";
 import { useEffect, useState } from "react";
 import { getAllNews } from "@/services/api/news";
+import CreateImage from "@/practice/createImage";
 
 function News() {
   const [allNews, setAllNews] = useState<News[]>([]);
@@ -18,9 +19,10 @@ function News() {
 
     loadData();
   }, [setAllNews]);
+
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>Blogify | News</title>
       </Helmet>
 
@@ -28,7 +30,9 @@ function News() {
         {allNews.map((item) => {
           return <NewsCard item={item} key={item._id} />;
         })}
-      </div>
+      </div> */}
+
+      <CreateImage />
     </>
   );
 }
