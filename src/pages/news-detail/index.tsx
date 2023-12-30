@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/Button";
 import { ThumbsUp } from "lucide-react";
 import NewsPostLike from "@/components/NewsPostLike";
 import { getAllTagsByNewsID } from "@/services/api/tag";
+import SubscribeToPublisher from "@/components/SubscribeToPublisher";
 
 function NewsDetail() {
   const { id } = useParams();
@@ -69,7 +70,14 @@ function NewsDetail() {
       {/* news tags */}
       <div className="flex items-center flex-wrap gap-3 mb-2">
         {tags.map((tag, i) => {
-          return <span key={i} className="bg-slate-800 px-3 py-1.5 rounded-lg text-white">{tag.name}</span>;
+          return (
+            <span
+              key={i}
+              className="bg-slate-800 px-3 py-1.5 rounded-lg text-white"
+            >
+              {tag.name}
+            </span>
+          );
         })}
       </div>
 
@@ -123,9 +131,7 @@ function NewsDetail() {
                 BY {currentPublisher?.username}
               </Link>
 
-              <button className="w-full bg-white text-black py-1 text-lg text-center uppercase tracking-wide font-oswald block border border-black hover:bg-black hover:text-white transition-all duration-500">
-                Subscribe
-              </button>
+              <SubscribeToPublisher currentPublisher={currentPublisher} />
             </div>
 
             <RelatedNews

@@ -85,7 +85,7 @@ function Navbar() {
             {!account?.id && (
               <Link
                 to="/login"
-                className="uppercase text-lg px-2 hover:scale-110 transition-all duration-500"
+                className="inline-block uppercase text-lg px-2 hover:scale-110 transition-all duration-500"
               >
                 Sign in
               </Link>
@@ -94,7 +94,7 @@ function Navbar() {
             {account?.type === "publisher" && (
               <Link
                 to="/write"
-                className="uppercase text-lg px-2 hover:scale-110 transition-all duration-500"
+                className="inline-block uppercase text-lg px-2 hover:scale-110 transition-all duration-500"
               >
                 Write
               </Link>
