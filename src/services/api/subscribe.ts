@@ -11,11 +11,16 @@ export async function getAllSubscriptions() {
 export async function createNewSubscription(payload: Subscription) {
   const { data } = await axios.post(`${BASE_URL}/subscriptions`, payload);
 
-  return data as { message: string; data: Subscription[] };
+  return data as { message: string; data: Subscription };
 }
 
-export async function deleteSubscription(id: string) {
-  const { data } = await axios.delete(`${BASE_URL}/subscriptions/${id}`);
+export async function deleteSubscription(
+  id: string,
+  payload: { userId: string }
+) {
+  const { data } = await axios.delete(`${BASE_URL}/subscriptions/${id}`, {
+    data: payload,
+  });
 
   return data as { message: string; data: Subscription[] };
 }
