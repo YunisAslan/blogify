@@ -1,8 +1,5 @@
-import Logo from "../assets/images/logo.svg";
 import { Link } from "react-router-dom";
-import { Button } from "./ui/Button";
 import {
-  AlignJustify as BarsIcon,
   Facebook,
   Linkedin,
   LogOutIcon,
@@ -10,17 +7,13 @@ import {
   Twitter,
   Youtube,
 } from "lucide-react";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface MobileNavbarProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleLogout: () => void;
-  account: {
-    id: string;
-    type: AccountType;
-  } | null;
+  account?: Publisher | User;
 }
 
 function MobileNavbar({
@@ -63,7 +56,7 @@ function MobileNavbar({
               Publishers
             </Link>
 
-            {!account?.id && (
+            {!account?._id && (
               <Link
                 to="/login"
                 className="uppercase text-lg px-2 py-1"

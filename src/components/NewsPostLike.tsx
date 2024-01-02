@@ -1,10 +1,9 @@
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { RootState } from "@/redux/store";
 import { likeNewsPost } from "@/services/api/news";
+import { useAuth } from "@/services/context/AuthContextProvider";
 import { ThumbsUp } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Button, buttonVariants } from "./ui/Button";
 
 interface NewsPostLikeProps {
@@ -13,7 +12,7 @@ interface NewsPostLikeProps {
 
 function NewsPostLike({ item }: NewsPostLikeProps) {
   const { toast, dismiss } = useToast();
-  const user = useSelector((state: RootState) => state.user.user);
+  const [account, setAccount] = useAuth();
 
   const [likesCount, setLikesCount] = useState(item.likes.length);
   const [likes, setLikes] = useState<string[]>([]);
@@ -23,9 +22,9 @@ function NewsPostLike({ item }: NewsPostLikeProps) {
   }, [setLikes]);
 
   const handleLike = async () => {
-    if (item._id && user?.id) {
+    if (item._id && account?._id) {
       try {
-        const res = await likeNewsPost(item._id, user.id);
+        const res = await likeNewsPost(item._id, account._id);
 
         if (res.value === "like") {
           setLikesCount((prev) => prev + 1);
@@ -60,7 +59,7 @@ function NewsPostLike({ item }: NewsPostLikeProps) {
     }
   };
 
-  const isLikedForCurrentUser = likes.some((val) => val == user?.id);
+  const isLikedForCurrentUser = likes.some((val) => val == account?._id);
 
   return (
     <div className="flex items-center gap-x-2 justify-end mt-2">

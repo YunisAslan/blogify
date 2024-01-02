@@ -1,5 +1,5 @@
 import React from "react";
-import elephant from "@/assets/images/elephant.jpeg";
+import { Link } from "react-router-dom";
 
 interface PublisherCardProps {
   publisher: Publisher;
@@ -7,20 +7,25 @@ interface PublisherCardProps {
 
 function PublisherCard({ publisher }: PublisherCardProps) {
   return (
-    <div className="px-4">
-      
-      <div className="w-full h-80">
-        <img src={publisher.profileImg} alt={publisher.name} className="w-full h-full object-cover" />
+    <Link to={`/publishers/${publisher._id}`} className="px-4 group">
+      <div className="w-full h-80 overflow-hidden">
+        <img
+          src={publisher.profileImg}
+          alt={publisher.name}
+          className="w-full h-full object-cover transition-all ease-easeInOutQuart duration-300 group-hover:scale-110"
+        />
       </div>
 
       <div className="">
-        <h2 className="text-xl my-3 uppercase font-oswald">{publisher.username}</h2>
+        <h2 className="text-xl my-3 uppercase font-oswald">
+          {publisher.username}
+        </h2>
 
         <p className="text-lg font-roboto line-clamp-3">
           {publisher.description}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }
 

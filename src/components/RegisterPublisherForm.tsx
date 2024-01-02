@@ -89,7 +89,7 @@ function RegisterPublisherForm() {
     if (availableEmail) {
       toast({
         title: "Email already exists!",
-        description: "Please try another username.",
+        description: "Please try another email.",
         variant: "destructive",
       });
 
@@ -104,7 +104,7 @@ function RegisterPublisherForm() {
 
         toast({
           title: "Successfully registered!",
-          description: "You can login with your new account.",
+          description: "Check your email(& spam) to verify your account.",
         });
       }
     } catch (err) {

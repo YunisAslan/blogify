@@ -1,20 +1,19 @@
 import { useToast } from "@/hooks/use-toast";
-import { RootState } from "@/redux/store";
 import {
   createNewSubscription,
   deleteSubscription,
   getAllSubscriptions,
 } from "@/services/api/subscribe";
+import { useAuth } from "@/services/context/AuthContextProvider";
 import { Loader2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 
 interface SubscribeToPublisherProps {
   currentPublisher: Publisher | null;
 }
 
 function SubscribeToPublisher({ currentPublisher }: SubscribeToPublisherProps) {
-  const user = useSelector((state: RootState) => state.user.user);
+  const [account] = useAuth();
 
   const { toast } = useToast();
   const [loading, setLoading] = useState<boolean>(false);
@@ -27,7 +26,7 @@ function SubscribeToPublisher({ currentPublisher }: SubscribeToPublisherProps) {
         const allSubscriptions = await getAllSubscriptions();
         setSubscriptions(allSubscriptions.data);
 
-        const userId = user?.id;
+        const userId = account?._id;
         const publisherId = currentPublisher?._id;
 
         const find = subscriptions?.find(
@@ -46,10 +45,10 @@ function SubscribeToPublisher({ currentPublisher }: SubscribeToPublisherProps) {
     }
 
     loadData();
-  }, [setSubscriptions, currentPublisher, isSubscribe]);
+  }, [setSubscriptions, currentPublisher, currentPublisher?._id, isSubscribe]);
 
   const handleSubscribe = async () => {
-    const userId = user?.id;
+    const userId = account?._id;
     const publisherId = currentPublisher?._id;
 
     try {
@@ -69,10 +68,9 @@ function SubscribeToPublisher({ currentPublisher }: SubscribeToPublisherProps) {
           await deleteSubscription(findSubscribed._id, { userId });
           setIsSubscribe(false);
 
-          const updatedSubscriptions =
-            subscriptions.filter((sub) => sub._id !== findSubscribed._id) || [];
-
-          setSubscriptions([...updatedSubscriptions]);
+          setSubscriptions((prevSubscriptions) =>
+            prevSubscriptions.filter((sub) => sub._id !== findSubscribed._id)
+          );
 
           return;
         } else {
@@ -81,7 +79,13 @@ function SubscribeToPublisher({ currentPublisher }: SubscribeToPublisherProps) {
           );
           setIsSubscribe(true);
 
-          setSubscriptions([...subscriptions, createdSubscription.data]);
+          console.log(subscriptions);
+
+          if (subscriptions) {
+            setSubscriptions([...subscriptions, createdSubscription.data]);
+          } else {
+            setSubscriptions([createdSubscription.data]);
+          }
 
           toast({
             title: `Successfully subscribed to ${currentPublisher.username}!`,

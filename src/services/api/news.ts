@@ -1,9 +1,16 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const BASE_URL = "http://localhost:6001/api";
 
 export async function getAllNews() {
-  const { data } = await axios.get(`${BASE_URL}/news`);
+  const token = await Cookies.get("token");
+
+  const { data } = await axios.get(`${BASE_URL}/news`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   return data as { message: string; data: News[] };
 }

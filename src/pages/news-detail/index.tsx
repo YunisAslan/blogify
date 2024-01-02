@@ -1,4 +1,3 @@
-import NotFound from "@/components/NotFound";
 import { getNewsByID } from "@/services/api/news";
 import { getPublisherByID } from "@/services/api/auth";
 import moment from "moment";
@@ -11,12 +10,14 @@ import RelatedPublishers from "@/components/RelatedPublishers";
 import NewsPostLike from "@/components/NewsPostLike";
 import { getAllTagsByNewsID } from "@/services/api/tag";
 import SubscribeToPublisher from "@/components/SubscribeToPublisher";
-import { isGeneratorFunction } from "util/types";
-import { Axios, AxiosError } from "axios";
+import { AxiosError } from "axios";
+import { useAuth } from "@/services/context/AuthContextProvider";
 
 function NewsDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const [account] = useAuth();
 
   const [loading, setLoading] = useState<boolean>(true);
   const [currentNews, setCurrentNews] = useState<News | null>(null);
@@ -96,7 +97,7 @@ function NewsDetail() {
         </div>
 
         <div className="grid grid-cols-12 gap-4">
-          <div className="col-span-9">
+          <div className="col-span-12 lg:col-span-9">
             <div className="w-full h-[740px]">
               <img
                 src={`${currentNews?.thumbnailImg}`}
@@ -123,7 +124,7 @@ function NewsDetail() {
             </div>
           </div>
 
-          <div className="col-span-3">
+          <div className="col-span-12 lg:col-span-3">
             <div className="">
               <div className="w-full h-72">
                 {loading ? (
@@ -145,7 +146,9 @@ function NewsDetail() {
                   BY {currentPublisher?.username}
                 </Link>
 
-                <SubscribeToPublisher currentPublisher={currentPublisher} />
+                {currentPublisher?._id !== account?._id && (
+                  <SubscribeToPublisher currentPublisher={currentPublisher} />
+                )}
               </div>
 
               <RelatedNews

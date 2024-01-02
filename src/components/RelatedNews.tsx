@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 interface RelatedNewsProps {
   publisherId: string;
-  currentNews: News;
+  currentNews?: News;
 }
 
 function RelatedNews({ publisherId, currentNews }: RelatedNewsProps) {
@@ -21,27 +21,31 @@ function RelatedNews({ publisherId, currentNews }: RelatedNewsProps) {
 
   return (
     <div className="flex flex-col gap-y-3">
-      {publisherAllNews.map((item) => {
-        return (
-          item._id !== currentNews._id && (
-            <Link key={item._id} to={`/news/${item._id}`} className="group">
-              <div className="w-full h-64 overflow-hidden">
-                <img
-                  src={item.thumbnailImg}
-                  alt={item.title}
-                  className="w-full h-full object-cover transition-all ease-easeInOutQuart duration-300 group-hover:scale-125"
-                />
-              </div>
+      {publisherAllNews.length > 0 ? (
+        publisherAllNews.map((item) => {
+          return (
+            item._id !== currentNews?._id && (
+              <Link key={item._id} to={`/news/${item._id}`} className="group">
+                <div className="w-full h-64 overflow-hidden">
+                  <img
+                    src={item.thumbnailImg}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-all ease-easeInOutQuart duration-300 group-hover:scale-125"
+                  />
+                </div>
 
-              <h2 className="font-oswald text-2xl py-2">{item.title}</h2>
-              <p className="text-lg leading-tight">
-                {item.description} Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Esse, sed.
-              </p>
-            </Link>
-          )
-        );
-      })}
+                <h2 className="font-oswald text-2xl py-2">{item.title}</h2>
+                <p className="text-lg leading-tight">
+                  {item.description} Lorem ipsum dolor sit amet consectetur
+                  adipisicing elit. Esse, sed.
+                </p>
+              </Link>
+            )
+          );
+        })
+      ) : (
+        <span className="text-muted-foreground text-center text-lg italic">No news found</span>
+      )}
     </div>
   );
 }

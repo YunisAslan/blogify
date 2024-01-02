@@ -14,9 +14,12 @@ export async function getAllUsers() {
 }
 
 export async function getUserByID(id: string) {
-  const { data } = await axios.get(`${BASE_URL}/users/${id}`);
-
-  return data as { message: string; data: User };
+  try {
+    const { data } = await axios.get(`${BASE_URL}/users/${id}`);
+    return data as { message: string; data: User };
+  } catch (error) {
+    // console.error("Error fetching user by ID:", error);
+  }
 }
 
 export async function createNewUser(payload: RegisterUserFormData) {
@@ -34,9 +37,12 @@ export async function getAllPublishers() {
 }
 
 export async function getPublisherByID(id: string) {
-  const { data } = await axios.get(`${BASE_URL}/publishers/${id}`);
-
-  return data as { message: string; data: Publisher };
+  try {
+    const { data } = await axios.get(`${BASE_URL}/publishers/${id}`);
+    return data as { message: string; data: Publisher };
+  } catch (error) {
+    // console.error("Error fetching publisher by ID:", error);
+  }
 }
 
 export async function createNewPublisher(payload: RegisterPublisherFormData) {
@@ -47,13 +53,31 @@ export async function createNewPublisher(payload: RegisterPublisherFormData) {
 
 // PUBLISHERS & USERS
 export async function loginWithUserAccount(payload: LoginFormData) {
-  const { data } = await axios.post(`${BASE_URL}/users/login`, payload);
+  try {
+    const { data } = await axios.post(`${BASE_URL}/users/login`, payload);
 
-  return data as { success: boolean; message: string; data: User };
+    return data as {
+      success: boolean;
+      message: string;
+      data: User;
+      token?: string;
+    };
+  } catch (err) {
+    // console.error(err);
+  }
 }
 
 export async function loginWithPublisherAccount(payload: LoginFormData) {
-  const { data } = await axios.post(`${BASE_URL}/publishers/login`, payload);
+  try {
+    const { data } = await axios.post(`${BASE_URL}/publishers/login`, payload);
 
-  return data as { success: boolean; message: string; data: Publisher };
+    return data as {
+      success: boolean;
+      message: string;
+      data: Publisher;
+      token?: string;
+    };
+  } catch (err) {
+    // console.error(err);
+  }
 }

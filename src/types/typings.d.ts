@@ -1,3 +1,5 @@
+type AccountType = "user" | "publisher";
+
 type User = {
   _id?: string;
   username: string;
@@ -7,6 +9,7 @@ type User = {
   profileImage: string;
   isAdmin: boolean;
   isVerified: boolean;
+  type: AccountType;
 };
 
 type Publisher = {
@@ -20,9 +23,8 @@ type Publisher = {
   description: string;
   joinedDate: string;
   isVerified: boolean;
+  type: AccountType;
 };
-
-type AccountType = "user" | "publisher";
 
 type News = {
   _id?: string;
@@ -46,6 +48,17 @@ type Subscription = {
   _id?: string;
   userId: string;
   publisherId: string;
+};
+
+// JWT Auth/Authorization
+type JwtPayload = {
+  id: string;
+  exp: number;
+  iat: number;
+  username: string;
+  email: string;
+  password: string;
+  type: AccountType;
 };
 
 // assets typings

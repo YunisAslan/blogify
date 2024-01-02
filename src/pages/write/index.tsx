@@ -16,11 +16,10 @@ import { createNewPost } from "@/services/api/news";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 import CreatableSelect from "react-select/creatable";
 import { ActionMeta } from "react-select";
 import { createNewTag, getAllTags } from "@/services/api/tag";
+import { useAuth } from "@/services/context/AuthContextProvider";
 
 type FormData = z.infer<typeof newsPostSchema>;
 interface SelectOption {
@@ -29,7 +28,7 @@ interface SelectOption {
 }
 
 function Write() {
-  const user = useSelector((state: RootState) => state.user.user);
+  const [account] = useAuth();
 
   const { toast } = useToast();
   const [loading, setLoading] = useState<boolean>(false);
@@ -108,7 +107,7 @@ function Write() {
       thumbnailImg: data.thumbnailImg,
       linkURL: "acme",
       newsBody: data.newsBody,
-      publisherId: user?.id as string,
+      publisherId: account?._id as string,
       tags: selectedTags.map((item) => item.value as string),
       likes: [],
       description: data.description,

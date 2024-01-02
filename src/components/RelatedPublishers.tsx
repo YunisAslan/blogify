@@ -1,8 +1,7 @@
-import { RootState } from "@/redux/store";
 import { getAllPublishers } from "@/services/api/auth";
+import { useAuth } from "@/services/context/AuthContextProvider";
 import { Facebook, Instagram, Twitter } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 interface RelatedPublishersProps {
@@ -10,7 +9,7 @@ interface RelatedPublishersProps {
 }
 
 function RelatedPublishers({ publisherId }: RelatedPublishersProps) {
-  const user = useSelector((state: RootState) => state.user.user);
+  const [account] = useAuth();
   const [slicedPublishers, setSlicedPublishers] = useState<Publisher[]>([]);
 
   useEffect(() => {
@@ -32,7 +31,7 @@ function RelatedPublishers({ publisherId }: RelatedPublishersProps) {
         {slicedPublishers.map((item) => {
           return (
             item._id !== publisherId &&
-            item._id !== user?.id && (
+            item._id !== account?._id && (
               <div
                 key={item._id}
                 className="flex items-center gap-x-3 py-3 border-b border-black group"

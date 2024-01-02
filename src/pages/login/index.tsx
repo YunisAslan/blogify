@@ -7,28 +7,31 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/validations/auth";
 import { z } from "zod";
 import {
+  getPublisherByID,
+  getUserByID,
   loginWithPublisherAccount,
   loginWithUserAccount,
 } from "@/services/api/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { loggedIn } from "@/redux/slices/userSlice";
 import { Helmet } from "react-helmet";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+import { useAuth } from "@/services/context/AuthContextProvider";
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
 function Login() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const dispatch = useDispatch();
+
+  const [_, setAccount] = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<LoginFormData>({
     defaultValues: {
       username: "",
@@ -50,19 +53,37 @@ function Login() {
     try {
       setLoading(true);
 
-      const user = await loginWithUserAccount(loginAccount);
-      const publisher = await loginWithPublisherAccount(loginAccount);
+      const userAccount = await loginWithUserAccount(loginAccount);
+      const publisherAccount = await loginWithPublisherAccount(loginAccount);
 
-      if (user.success) {
+      if (userAccount && userAccount.success && userAccount.token) {
         isAuth = true;
 
-        dispatch(loggedIn({ id: user.data._id, type: "user" }));
+        await Cookies.set("token", userAccount?.token, {
+          expires: 1,
+          secure: true,
+        });
+        const decoded = jwtDecode<JwtPayload>(userAccount.token);
+
+        const currentUser = await getUserByID(decoded.id);
+        setAccount(currentUser?.data);
       }
 
-      if (publisher.success) {
+      if (
+        publisherAccount &&
+        publisherAccount.success &&
+        publisherAccount.token
+      ) {
         isAuth = true;
 
-        dispatch(loggedIn({ id: publisher.data._id, type: "publisher" }));
+        await Cookies.set("token", publisherAccount?.token, {
+          expires: 1,
+          secure: true,
+        });
+        const decoded = jwtDecode<JwtPayload>(publisherAccount.token);
+
+        const currentPublisher = await getPublisherByID(decoded.id);
+        setAccount(currentPublisher?.data);
       }
     } catch (err) {
       console.log(err);
@@ -83,17 +104,12 @@ function Login() {
       });
     } else {
       toast({
-        title: "Your username or email or password incorrect!",
+        title:
+          "Your username or email or password incorrect or unverified account!",
         description: "Please try again.",
         variant: "destructive",
       });
     }
-
-    // reset({
-    //   username: "",
-    //   email: "",
-    //   password: "",
-    // });
   };
   return (
     <>

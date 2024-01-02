@@ -1,6 +1,4 @@
-import { logOut } from "@/redux/slices/userSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/images/logo.svg";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -13,41 +11,39 @@ import {
   X,
   Youtube,
 } from "lucide-react";
-import { RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { getPublisherByID, getUserByID } from "@/services/api/auth";
 import { Button } from "./ui/Button";
 import MobileNavbar from "./MobileNavbar";
+import { useAuth } from "@/services/context/AuthContextProvider";
+import Cookies from "js-cookie";
 
 function Navbar() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const dispatch = useDispatch();
   const { toast } = useToast();
 
-  const [currentUser, setCurrentUser] = useState<User | Publisher | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const account = useSelector((state: RootState) => state.user.user);
+  const [account, setAccount] = useAuth();
 
   useEffect(() => {
     async function loadData() {
-      if (account?.type === "user") {
-        const user = await getUserByID(account.id);
-        setCurrentUser(user.data);
+      if (account?.type === "user" && account._id) {
+        const user = await getUserByID(account._id);
+        setAccount(user?.data);
       }
 
-      if (account?.type === "publisher") {
-        const publisher = await getPublisherByID(account.id);
-        setCurrentUser(publisher.data);
+      if (account?.type === "publisher" && account._id) {
+        const publisher = await getPublisherByID(account._id);
+        setAccount(publisher?.data);
       }
     }
 
     loadData();
   }, []);
 
-  const handleLogout = () => {
-    dispatch(logOut());
+  const handleLogout = async () => {
+    setAccount(undefined);
+    await Cookies.remove("token");
 
     navigate("/login");
 
@@ -82,7 +78,7 @@ function Navbar() {
               Publishers
             </Link>
 
-            {!account?.id && (
+            {!account?._id && (
               <Link
                 to="/login"
                 className="inline-block uppercase text-lg px-2 hover:scale-110 transition-all duration-500"
@@ -147,7 +143,10 @@ function Navbar() {
             </Link>
 
             {account && (
-              <button onClick={handleLogout} className="inline-block hover:scale-110 transition-all duration-500">
+              <button
+                onClick={handleLogout}
+                className="inline-block hover:scale-110 transition-all duration-500"
+              >
                 <LogOutIcon className="w-5 h-5" />
               </button>
             )}
