@@ -63,7 +63,9 @@ function PublisherDetail() {
           <div className="col-span-12 lg:col-span-9">
             <div className="w-full h-[740px]">
               <img
-                src={`${currentPublisher?.profileImg.name}`}
+                src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/${
+                  currentPublisher.profileImg?.filename
+                }`}
                 alt=""
                 className="object-cover w-full h-full"
               />

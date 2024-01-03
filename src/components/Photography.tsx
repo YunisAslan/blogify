@@ -41,40 +41,46 @@ function Photography() {
           loop={true}
           className="photography"
         >
-          {slicedNews.map((item) => {
-            return (
-              <SwiperSlide className="h-[700px]" key={item._id}>
-                <div
-                  className="w-full h-full relative"
-                  data-swiper-parallax="-100"
-                >
-                  <img
-                    src={item.thumbnailImg}
-                    alt={item.title}
-                    className="w-full h-full object-cover"
-                  />
+          {slicedNews.length === 0 ? (
+            <p className="text-center text-2xl font-bold col-span-12 text-orange-400">
+              There is currently no data you are looking for
+            </p>
+          ) : (
+            slicedNews.map((item) => {
+              return (
+                <SwiperSlide className="h-[700px]" key={item._id}>
+                  <div
+                    className="w-full h-full relative"
+                    data-swiper-parallax="-100"
+                  >
+                    <img
+                      src={item.thumbnailImg}
+                      alt={item.title}
+                      className="w-full h-full object-cover"
+                    />
 
-                  <div className="bg-[#000000b5] text-white w-full md:w-[500px] px-8 pt-8 pb-4 absolute z-10 left-0 bottom-6">
-                    <h3 className="text-2xl md:text-4xl font-oswald">
-                      {item.title}
-                    </h3>
-                    <p className="pt-3 text-sm md:text-lg line-clamp-2">
-                      {item.newsBody}
-                    </p>
+                    <div className="bg-[#000000b5] text-white w-full md:w-[500px] px-8 pt-8 pb-4 absolute z-10 left-0 bottom-6">
+                      <h3 className="text-2xl md:text-4xl font-oswald">
+                        {item.title}
+                      </h3>
+                      <p className="pt-3 text-sm md:text-lg line-clamp-2">
+                        {item.description}
+                      </p>
 
-                    <div className="flex justify-end pt-4">
-                      <Link
-                        to={`/news/${item._id}`}
-                        className="font-oswald hover:underline"
-                      >
-                        Read more
-                      </Link>
+                      <div className="flex justify-end pt-4">
+                        <Link
+                          to={`/news/${item._id}`}
+                          className="font-oswald hover:underline"
+                        >
+                          Read more
+                        </Link>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </SwiperSlide>
-            );
-          })}
+                </SwiperSlide>
+              );
+            })
+          )}
 
           <div className="swiper-button-next"></div>
           <div className="swiper-button-prev"></div>

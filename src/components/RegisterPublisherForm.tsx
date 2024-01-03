@@ -64,13 +64,14 @@ function RegisterPublisherForm() {
       name: data.name,
       joinedDate: String(new Date()),
       isVerified: false,
+      type: "publisher"
     };
 
-    const availableUsername = publishers.find(
+    const availableUsername = publishers?.find(
       (publisher) => publisher.username === data.username
     );
 
-    const availableEmail = publishers.find(
+    const availableEmail = publishers?.find(
       (publisher) => publisher.email === data.email
     );
 
@@ -135,8 +136,6 @@ function RegisterPublisherForm() {
       name: "",
     });
   };
-
-  console.log("erors", errors.profileImg);
 
   return (
     <div className="w-full">

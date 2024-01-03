@@ -60,13 +60,15 @@ function RegisterUserForm() {
       profileImg: formData.get("profileImg"),
       isAdmin: false,
       isVerified: false,
+      type: "user"
     };
 
-    const availableUsername = users.find(
+    const availableUsername = users?.find(
       (user) => user.username === data.username
     );
 
-    const availableEmail = users.find((user) => user.email === data.email);
+    
+    const availableEmail = users?.find((user) => user.email === data.email);
 
     // if username and email exists
     if (availableUsername && availableEmail) {

@@ -35,9 +35,8 @@ function RelatedNews({ publisherId, currentNews }: RelatedNewsProps) {
                 </div>
 
                 <h2 className="font-oswald text-2xl py-2">{item.title}</h2>
-                <p className="text-lg leading-tight">
-                  {item.description} Lorem ipsum dolor sit amet consectetur
-                  adipisicing elit. Esse, sed.
+                <p className="text-lg leading-tight line-clamp-6">
+                  {item.description}
                 </p>
               </Link>
             )

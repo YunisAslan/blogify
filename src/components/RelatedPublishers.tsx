@@ -29,6 +29,7 @@ function RelatedPublishers({ publisherId }: RelatedPublishersProps) {
 
       <div className="flex flex-col">
         {slicedPublishers.map((item) => {
+          console.log("item: ", item);
           return (
             item._id !== publisherId &&
             item._id !== account?._id && (
@@ -39,7 +40,9 @@ function RelatedPublishers({ publisherId }: RelatedPublishersProps) {
                 <Link to={`/publishers/${item._id}`}>
                   <div className="w-24 h-24 overflow-hidden">
                     <img
-                      src={item.profileImg}
+                      src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/${
+                        item?.profileImg?.filename
+                      }`}
                       alt=""
                       className="w-full h-full object-cover transition-all ease-easeInOutQuart duration-300 group-hover:scale-110"
                     />

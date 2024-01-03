@@ -12,10 +12,13 @@ import { getAllTagsByNewsID } from "@/services/api/tag";
 import SubscribeToPublisher from "@/components/SubscribeToPublisher";
 import { AxiosError } from "axios";
 import { useAuth } from "@/services/context/AuthContextProvider";
+import { buttonVariants } from "@/components/ui/Button";
+import { useToast } from "@/hooks/use-toast";
 
 function NewsDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { toast, dismiss } = useToast();
 
   const [account] = useAuth();
 
@@ -50,6 +53,24 @@ function NewsDetail() {
         if (err instanceof AxiosError) {
           if (err.response?.status === 404) {
             navigate("not-found");
+          }
+
+          if (err.response?.status === 401) {
+            navigate("/login");
+
+            toast({
+              title: "You must login with your account to read the news.",
+              variant: "destructive",
+              action: (
+                <a
+                  onClick={() => dismiss()}
+                  href="/"
+                  className={buttonVariants({ variant: "default" })}
+                >
+                  Back to home
+                </a>
+              ),
+            });
           }
         }
         console.error(err);
@@ -133,7 +154,9 @@ function NewsDetail() {
                   <Skeleton className="w-full h-full" />
                 ) : (
                   <img
-                    src={`http://localhost:6001/${currentPublisher?.profileImg.filename}`}
+                    src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/${
+                      currentPublisher?.profileImg?.filename
+                    }`}
                     alt=""
                     className="w-full h-full object-cover"
                   />

@@ -1,5 +1,5 @@
 import { getAllPublishers } from "@/services/api/auth";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PublisherCard from "./PublisherCard";
 
 function PublishersSection() {
@@ -21,9 +21,15 @@ function PublishersSection() {
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {slicedPublishers.map((publisher) => {
-          return <PublisherCard key={publisher._id} publisher={publisher} />;
-        })}
+        {slicedPublishers.length === 0 ? (
+          <p className="text-center text-2xl font-bold col-span-12 text-orange-400">
+            There is currently no data you are looking for
+          </p>
+        ) : (
+          slicedPublishers.map((publisher) => {
+            return <PublisherCard key={publisher._id} publisher={publisher} />;
+          })
+        )}
       </div>
     </div>
   );

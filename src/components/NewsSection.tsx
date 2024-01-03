@@ -21,9 +21,15 @@ function NewsSection() {
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-0 lg:divide-x lg:divide-x-accent">
-        {slicedNews.map((item) => {
-          return <NewsCard item={item} key={item._id} />;
-        })}
+        {slicedNews.length === 0 ? (
+          <p className="text-center text-2xl font-bold col-span-12 text-orange-400">
+            There is currently no data you are looking for
+          </p>
+        ) : (
+          slicedNews?.map((item) => {
+            return <NewsCard item={item} key={item._id} />;
+          })
+        )}
       </div>
     </div>
   );

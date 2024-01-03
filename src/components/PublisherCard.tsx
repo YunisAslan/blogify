@@ -9,7 +9,7 @@ function PublisherCard({ publisher }: PublisherCardProps) {
     <Link to={`/publishers/${publisher._id}`} className="px-4 group">
       <div className="w-full h-80 overflow-hidden">
         <img
-          src={`http://localhost:6001/uploads/${publisher.profileImg?.filename}`}
+          src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/${publisher.profileImg?.filename}`}
           alt={publisher.name}
           className="w-full h-full object-cover transition-all ease-easeInOutQuart duration-300 group-hover:scale-110"
         />

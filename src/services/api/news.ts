@@ -1,12 +1,10 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export const BASE_URL = "http://localhost:6001/api";
-
 export async function getAllNews() {
   const token = await Cookies.get("token");
 
-  const { data } = await axios.get(`${BASE_URL}/news`, {
+  const { data } = await axios.get(`${import.meta.env.VITE_SERVER_BASE_URL}/api/news`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -16,19 +14,25 @@ export async function getAllNews() {
 }
 
 export async function getNewsByID(id: string) {
-  const { data } = await axios.get(`${BASE_URL}/news/${id}`);
+  const token = await Cookies.get("token");
+
+  const { data } = await axios.get(`${import.meta.env.VITE_SERVER_BASE_URL}/api/news/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   return data as { message: string; data: News };
 }
 
 export async function getPublisherAllNews(publisherId: string) {
-  const { data } = await axios.get(`${BASE_URL}/news/publisher/${publisherId}`);
+  const { data } = await axios.get(`${import.meta.env.VITE_SERVER_BASE_URL}/api/news/publisher/${publisherId}`);
 
   return data as { message: string; data: News[] };
 }
 
 export async function likeNewsPost(newsId: string, accountID: string) {
-  const { data } = await axios.patch(`${BASE_URL}/news/like/${newsId}`, {
+  const { data } = await axios.patch(`${import.meta.env.VITE_SERVER_BASE_URL}/api/news/like/${newsId}`, {
     accountID,
   });
 
@@ -36,7 +40,7 @@ export async function likeNewsPost(newsId: string, accountID: string) {
 }
 
 export async function createNewPost(payload: News) {
-  const { data } = await axios.post(`${BASE_URL}/news`, payload);
+  const { data } = await axios.post(`${import.meta.env.VITE_SERVER_BASE_URL}/api/news`, payload);
 
   return data as { message: string; data: News[] };
 }
