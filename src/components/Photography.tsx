@@ -15,7 +15,10 @@ function Photography() {
   useEffect(() => {
     async function loadData() {
       const news = await getAllNews();
-      setSlicedNews(news.data.slice(0, 3));
+      const sortedNewsByLike = news.data.sort(
+        (a, b) => b.likes.length - a.likes.length
+      );
+      setSlicedNews(sortedNewsByLike.slice(0, 3));
     }
 
     loadData();
