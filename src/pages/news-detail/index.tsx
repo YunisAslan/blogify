@@ -42,7 +42,9 @@ function NewsDetail() {
         if (currentNews?.publisherId) {
           setLoading(true);
           const publisher = await getPublisherByID(currentNews.publisherId);
-          setCurrentPublisher(publisher.data);
+          if (publisher) {
+            setCurrentPublisher(publisher.data);
+          }
         }
       } catch (err) {
         if (err instanceof AxiosError) {
@@ -131,7 +133,7 @@ function NewsDetail() {
                   <Skeleton className="w-full h-full" />
                 ) : (
                   <img
-                    src={currentPublisher?.profileImg}
+                    src={`http://localhost:6001/${currentPublisher?.profileImg.filename}`}
                     alt=""
                     className="w-full h-full object-cover"
                   />

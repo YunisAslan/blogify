@@ -23,7 +23,10 @@ export async function getUserByID(id: string) {
 }
 
 export async function createNewUser(payload: RegisterUserFormData) {
-  const { data } = await axios.post(`${BASE_URL}/users`, payload);
+  const config = {
+    headers: { "content-type": "multipart/form-data" },
+  };
+  const { data } = await axios.post(`${BASE_URL}/users`, payload, config);
 
   return data as { message: string; data: User };
 }
@@ -46,7 +49,11 @@ export async function getPublisherByID(id: string) {
 }
 
 export async function createNewPublisher(payload: RegisterPublisherFormData) {
-  const { data } = await axios.post(`${BASE_URL}/publishers`, payload);
+  // add for file uploads
+  const config = {
+    headers: { "content-type": "multipart/form-data" },
+  };
+  const { data } = await axios.post(`${BASE_URL}/publishers`, payload, config);
 
   return data as { message: string; data: Publisher };
 }

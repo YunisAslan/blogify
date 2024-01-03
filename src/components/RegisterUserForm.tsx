@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerUserSchema } from "@/validations/auth";
@@ -16,6 +16,7 @@ function RegisterUserForm() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [users, setUsers] = useState<User[]>([]);
+  const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     async function loadData() {
@@ -31,6 +32,7 @@ function RegisterUserForm() {
     register,
     handleSubmit,
     formState: { errors },
+    control,
     reset,
   } = useForm<RegisterUserFormData>({
     defaultValues: {
@@ -38,18 +40,24 @@ function RegisterUserForm() {
       fullName: "",
       email: "",
       password: "",
-      profileImage: "",
+      profileImg: null,
     },
     resolver: zodResolver(registerUserSchema),
   });
 
   const onSubmit = async (data: RegisterUserFormData) => {
+    const formData = new FormData();
+
+    if (file) {
+      formData.append("profileImg", file, file.name);
+    }
+
     const newUser = {
       username: data.username,
       fullName: data.fullName,
       email: data.email,
       password: data.password,
-      profileImage: data.profileImage,
+      profileImg: formData.get("profileImg"),
       isAdmin: false,
       isVerified: false,
     };
@@ -116,7 +124,7 @@ function RegisterUserForm() {
       fullName: "",
       email: "",
       password: "",
-      profileImage: "",
+      profileImg: "",
     });
   };
   return (
@@ -128,7 +136,12 @@ function RegisterUserForm() {
               Create your user account
             </h1>
 
-            <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
+            <form
+              className="space-y-3"
+              onSubmit={handleSubmit(onSubmit)}
+              method="post"
+              encType="multipart/form-data"
+             >
               <div>
                 <Label htmlFor="username" className="mb-2 block">
                   Username
@@ -198,19 +211,38 @@ function RegisterUserForm() {
               </div>
 
               <div>
-                <Label htmlFor="profileImage" className="mb-2 block">
+                <Label htmlFor="profileImg" className="mb-2 block">
                   Profile img
                 </Label>
 
-                <Input
-                  type="url"
-                  id="profileImage"
-                  placeholder="https://acme.png"
-                  {...register("profileImage")}
+                <Controller
+                  control={control}
+                  name="profileImg"
+                  rules={{ required: "Profile image is required" }}
+                  render={({ field: { value, onChange, ...field } }) => {
+                    return (
+                      <Input
+                        {...field}
+                        name="profileImg"
+                        type="file"
+                        id="image"
+                        onChange={(e) => {
+                          const fileList = e.target.files as FileList;
+
+                          if (!fileList) return;
+
+                          onChange(fileList[0]);
+                          setFile(fileList[0]);
+                        }}
+                      />
+                    );
+                  }}
                 />
 
-                {errors.profileImage && (
-                  <p className="text-red-500">{errors.profileImage?.message}</p>
+                {errors.profileImg && (
+                  <p className="text-red-500">
+                    {errors?.profileImg?.message as string}
+                  </p>
                 )}
               </div>
 

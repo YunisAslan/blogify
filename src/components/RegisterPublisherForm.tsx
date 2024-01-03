@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerPublisherSchema } from "@/validations/auth";
@@ -16,6 +16,7 @@ function RegisterPublisherForm() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [publishers, setPublishers] = useState<Publisher[]>([]);
+  const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     async function loadData() {
@@ -31,6 +32,7 @@ function RegisterPublisherForm() {
     register,
     handleSubmit,
     formState: { errors },
+    control,
     reset,
   } = useForm<RegisterPublisherFormData>({
     defaultValues: {
@@ -38,7 +40,7 @@ function RegisterPublisherForm() {
       email: "",
       password: "",
       backgroundImg: "",
-      profileImg: "",
+      profileImg: null,
       description: "",
       name: "",
     },
@@ -46,12 +48,18 @@ function RegisterPublisherForm() {
   });
 
   const onSubmit = async (data: RegisterPublisherFormData) => {
+    const formData = new FormData();
+
+    if (file) {
+      formData.append("profileImg", file, file.name);
+    }
+
     const newPublisher = {
       username: data.username,
       email: data.email,
       password: data.password,
       backgroundImg: data.backgroundImg,
-      profileImg: data.profileImg,
+      profileImg: formData.get("profileImg"),
       description: data.description,
       name: data.name,
       joinedDate: String(new Date()),
@@ -61,6 +69,7 @@ function RegisterPublisherForm() {
     const availableUsername = publishers.find(
       (publisher) => publisher.username === data.username
     );
+
     const availableEmail = publishers.find(
       (publisher) => publisher.email === data.email
     );
@@ -126,6 +135,9 @@ function RegisterPublisherForm() {
       name: "",
     });
   };
+
+  console.log("erors", errors.profileImg);
+
   return (
     <div className="w-full">
       <div className="flex flex-col items-center justify-center px-2 md:px-6 py-8 mx-auto lg:py-0 mt-3">
@@ -135,7 +147,12 @@ function RegisterPublisherForm() {
               Create your publisher account
             </h1>
 
-            <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
+            <form
+              className="space-y-3"
+              onSubmit={handleSubmit(onSubmit)}
+              method="post"
+              encType="multipart/form-data"
+            >
               <div>
                 <Label htmlFor="username" className="mb-2 block">
                   Username
@@ -192,15 +209,34 @@ function RegisterPublisherForm() {
                   Profile img
                 </Label>
 
-                <Input
-                  type="url"
-                  id="profileImg"
-                  placeholder="https://acme.png"
-                  {...register("profileImg")}
+                <Controller
+                  control={control}
+                  name="profileImg"
+                  rules={{ required: "Profile image is required" }}
+                  render={({ field: { value, onChange, ...field } }) => {
+                    return (
+                      <Input
+                        {...field}
+                        name="profileImg"
+                        type="file"
+                        id="image"
+                        onChange={(e) => {
+                          const fileList = e.target.files as FileList;
+
+                          if (!fileList) return;
+
+                          onChange(fileList[0]);
+                          setFile(fileList[0]);
+                        }}
+                      />
+                    );
+                  }}
                 />
 
                 {errors.profileImg && (
-                  <p className="text-red-500">{errors.profileImg?.message}</p>
+                  <p className="text-red-500">
+                    {errors?.profileImg?.message as string}
+                  </p>
                 )}
               </div>
 

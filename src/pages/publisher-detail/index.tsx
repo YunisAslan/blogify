@@ -25,7 +25,9 @@ function PublisherDetail() {
         if (id) {
           const publisher = await getPublisherByID(id);
 
-          setCurrentPublisher(publisher.data);
+          if (publisher) {
+            setCurrentPublisher(publisher.data);
+          }
         }
       } catch (err) {
         if (err instanceof AxiosError) {
@@ -61,7 +63,7 @@ function PublisherDetail() {
           <div className="col-span-12 lg:col-span-9">
             <div className="w-full h-[740px]">
               <img
-                src={`${currentPublisher?.profileImg}`}
+                src={`${currentPublisher?.profileImg.name}`}
                 alt=""
                 className="object-cover w-full h-full"
               />

@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 interface PublisherCardProps {
@@ -10,7 +9,7 @@ function PublisherCard({ publisher }: PublisherCardProps) {
     <Link to={`/publishers/${publisher._id}`} className="px-4 group">
       <div className="w-full h-80 overflow-hidden">
         <img
-          src={publisher.profileImg}
+          src={`http://localhost:6001/uploads/${publisher.profileImg?.filename}`}
           alt={publisher.name}
           className="w-full h-full object-cover transition-all ease-easeInOutQuart duration-300 group-hover:scale-110"
         />
