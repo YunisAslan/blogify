@@ -12,7 +12,7 @@ interface NewsPostLikeProps {
 
 function NewsPostLike({ item }: NewsPostLikeProps) {
   const { toast, dismiss } = useToast();
-  const [account, setAccount] = useAuth();
+  const [account, _] = useAuth();
 
   const [likesCount, setLikesCount] = useState(item.likes.length);
   const [likes, setLikes] = useState<string[]>([]);

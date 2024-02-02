@@ -12,7 +12,7 @@ function PublisherDetail() {
   const navigate = useNavigate();
   const [account] = useAuth();
 
-  const [loading, setLoading] = useState<boolean>(true);
+  const [_, setLoading] = useState<boolean>(true);
   const [currentPublisher, setCurrentPublisher] = useState<Publisher | null>(
     null
   );

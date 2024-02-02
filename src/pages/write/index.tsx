@@ -69,7 +69,7 @@ function Write() {
   });
 
   const handleTagChange = async (
-    options: readonly SelectOption[],
+    _: readonly SelectOption[],
     actionMeta: ActionMeta<SelectOption>
   ) => {
     if (actionMeta.action === "select-option") {
