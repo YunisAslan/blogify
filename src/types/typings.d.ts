@@ -1,15 +1,15 @@
 type AccountType = "user" | "publisher";
 
-type ProfileImageFile = {
-  fieldname: string;
-  originalname: string;
-  encoding: string;
-  mimetype: string;
-  destination: string;
-  filename: string;
-  path: string;
-  size: number;
-};
+// type ProfileImageFile = {
+//   fieldname: string;
+//   originalname: string;
+//   encoding: string;
+//   mimetype: string;
+//   destination: string;
+//   filename: string;
+//   path: string;
+//   size: number;
+// };
 
 type User = {
   _id?: string;
@@ -17,7 +17,7 @@ type User = {
   fullName: string;
   email: string;
   password: string;
-  profileImg: ProfileImageFile;
+  profileImg: string;
   isAdmin: boolean;
   isVerified: boolean;
   type: AccountType;
@@ -29,7 +29,7 @@ type Publisher = {
   email: string;
   password: string;
   backgroundImg: string;
-  profileImg: ProfileImageFile;
+  profileImg: string;
   name: string;
   description: string;
   joinedDate: string;

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerPublisherSchema } from "@/validations/auth";
@@ -16,7 +16,6 @@ function RegisterPublisherForm() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [publishers, setPublishers] = useState<Publisher[]>([]);
-  const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     async function loadData() {
@@ -32,7 +31,6 @@ function RegisterPublisherForm() {
     register,
     handleSubmit,
     formState: { errors },
-    control,
     reset,
   } = useForm<RegisterPublisherFormData>({
     defaultValues: {
@@ -40,7 +38,7 @@ function RegisterPublisherForm() {
       email: "",
       password: "",
       backgroundImg: "",
-      profileImg: null,
+      profileImg: "",
       description: "",
       name: "",
     },
@@ -48,23 +46,17 @@ function RegisterPublisherForm() {
   });
 
   const onSubmit = async (data: RegisterPublisherFormData) => {
-    const formData = new FormData();
-
-    if (file) {
-      formData.append("profileImg", file, file.name);
-    }
-
     const newPublisher = {
       username: data.username,
       email: data.email,
       password: data.password,
       backgroundImg: data.backgroundImg,
-      profileImg: formData.get("profileImg"),
+      profileImg: data.profileImg,
       description: data.description,
       name: data.name,
       joinedDate: String(new Date()),
       isVerified: false,
-      type: "publisher"
+      type: "publisher",
     };
 
     const availableUsername = publishers?.find(
@@ -208,28 +200,11 @@ function RegisterPublisherForm() {
                   Profile img
                 </Label>
 
-                <Controller
-                  control={control}
-                  name="profileImg"
-                  rules={{ required: "Profile image is required" }}
-                  render={({ field: { value, onChange, ...field } }) => {
-                    return (
-                      <Input
-                        {...field}
-                        name="profileImg"
-                        type="file"
-                        id="image"
-                        onChange={(e) => {
-                          const fileList = e.target.files as FileList;
-
-                          if (!fileList) return;
-
-                          onChange(fileList[0]);
-                          setFile(fileList[0]);
-                        }}
-                      />
-                    );
-                  }}
+                <Input
+                  type="text"
+                  id="profileImg"
+                  placeholder="https://acme.png"
+                  {...register("profileImg")}
                 />
 
                 {errors.profileImg && (

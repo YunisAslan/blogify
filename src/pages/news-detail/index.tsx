@@ -154,9 +154,7 @@ function NewsDetail() {
                   <Skeleton className="w-full h-full" />
                 ) : (
                   <img
-                    src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/${
-                      currentPublisher?.profileImg?.filename
-                    }`}
+                    src={currentPublisher?.profileImg}
                     alt=""
                     className="w-full h-full object-cover"
                   />

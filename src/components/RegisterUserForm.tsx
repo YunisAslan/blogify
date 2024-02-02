@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerUserSchema } from "@/validations/auth";
@@ -16,7 +16,6 @@ function RegisterUserForm() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [users, setUsers] = useState<User[]>([]);
-  const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     async function loadData() {
@@ -32,7 +31,6 @@ function RegisterUserForm() {
     register,
     handleSubmit,
     formState: { errors },
-    control,
     reset,
   } = useForm<RegisterUserFormData>({
     defaultValues: {
@@ -40,24 +38,19 @@ function RegisterUserForm() {
       fullName: "",
       email: "",
       password: "",
-      profileImg: null,
+      profileImg: "",
     },
     resolver: zodResolver(registerUserSchema),
   });
 
   const onSubmit = async (data: RegisterUserFormData) => {
-    const formData = new FormData();
-
-    if (file) {
-      formData.append("profileImg", file, file.name);
-    }
 
     const newUser = {
       username: data.username,
       fullName: data.fullName,
       email: data.email,
       password: data.password,
-      profileImg: formData.get("profileImg"),
+      profileImg: data.profileImg,
       isAdmin: false,
       isVerified: false,
       type: "user"
@@ -217,30 +210,13 @@ function RegisterUserForm() {
                   Profile img
                 </Label>
 
-                <Controller
-                  control={control}
-                  name="profileImg"
-                  rules={{ required: "Profile image is required" }}
-                  render={({ field: { value, onChange, ...field } }) => {
-                    return (
-                      <Input
-                        {...field}
-                        name="profileImg"
-                        type="file"
-                        id="image"
-                        onChange={(e) => {
-                          const fileList = e.target.files as FileList;
-
-                          if (!fileList) return;
-
-                          onChange(fileList[0]);
-                          setFile(fileList[0]);
-                        }}
-                      />
-                    );
-                  }}
+                <Input
+                  type="text"
+                  id="profileImg"
+                  placeholder="https://acme.png"
+                  {...register("profileImg")}
                 />
-
+              
                 {errors.profileImg && (
                   <p className="text-red-500">
                     {errors?.profileImg?.message as string}

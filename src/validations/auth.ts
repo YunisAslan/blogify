@@ -22,7 +22,7 @@ export const registerUserSchema = z.object({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{5,}$/,
       "Password must be at least 5 characters long, contain at least 1 uppercase letter, 1 lowercase letter, and 1 number."
     ),
-  profileImg: z.any().refine((file) => file?.name, "Image is required."),
+  profileImg: z.string().url("Invalid url"),
 });
 
 export const registerPublisherSchema = z.object({
@@ -42,7 +42,7 @@ export const registerPublisherSchema = z.object({
       "Password must be at least 5 characters long, contain at least 1 uppercase letter, 1 lowercase letter, and 1 number."
     ),
   backgroundImg: z.string().optional(),
-  profileImg: z.any().refine((file) => file?.name, "Image is required."),
+  profileImg: z.string().url("Invalid url"),
   name: z.string().optional(),
   description: z.string().optional(),
 });

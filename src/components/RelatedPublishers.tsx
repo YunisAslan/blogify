@@ -40,9 +40,7 @@ function RelatedPublishers({ publisherId }: RelatedPublishersProps) {
                 <Link to={`/publishers/${item._id}`}>
                   <div className="w-24 h-24 overflow-hidden">
                     <img
-                      src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/${
-                        item?.profileImg?.filename
-                      }`}
+                      src={item.profileImg}
                       alt=""
                       className="w-full h-full object-cover transition-all ease-easeInOutQuart duration-300 group-hover:scale-110"
                     />

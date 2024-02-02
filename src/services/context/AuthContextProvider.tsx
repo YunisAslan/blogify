@@ -45,11 +45,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
             setAccount(publisher.data);
           } else if (user) {
             setAccount(user.data);
-          } else {
-            return toast({
-              title: "Not found account!",
-              variant: "destructive",
-            });
           }
         } catch (err) {
           console.error(err);
